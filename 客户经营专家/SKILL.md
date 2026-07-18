@@ -1,7 +1,7 @@
 ---
 title: 客户经营专家
 name: 客户经营专家
-version: 11
+version: 11.0.0
 description: 客户经营专家 = 客户经营体系（五步工作坊法） + 三年战略经营计划 + 客户全生命周期经营（四阶段）+ 忠诚度管理 +
   流失预警挽回。基于夏凯《战略客户经营体系》《营销罗盘》及张睿CRM落地策略方法论，帮助销售人员从"卖产品"转型到"经营客户"，实现存量时代的确定性增长。
 agent_created: true
@@ -34,7 +34,21 @@ methodology_references:
   - 华为MCR（客户关系管理）
   - 客户成功方法论
   - 张睿《CRM解决方案落地策略V5.2》
-disable: true
+disable: false
+alliance:
+  version: "11.0.0"
+  department: 经营司
+  role: 客户经营
+  pipeline_phase: 8
+  upstream:
+    - 策略赢单专家
+    - 信任拜访专家
+  downstream:
+    - 销售管理专家
+  capabilities:
+    - 五步工作坊
+    - 经营计划
+
 ---
 
 # 客户经营专家 v10.0

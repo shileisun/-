@@ -1,7 +1,7 @@
 ---
 title: 客户经营计划专家
 name: 客户经营计划专家
-version: 1
+version: 1.0.0
 description: 为客户制定三年战略经营计划，嵌入战略客户经营体系方法论，帮助销售人员从"卖产品"转型到"经营客户"
 agent_created: true
 agent_tags:
@@ -20,7 +20,20 @@ methodology_references:
   - 夏凯SaaS AI Mate客户经营计划智能体
   - 客户关系发展理论
   - 客户成功方法论
-disable: true
+disable: false
+alliance:
+  version: "1.0.0"
+  department: 经营司
+  role: 三年经营计划
+  pipeline_phase: 9
+  upstream:
+    - 客户经营专家
+  downstream:
+    - 客户经营专家
+  capabilities:
+    - 战略经营
+    - 客户深耕
+
 ---
 
 # 客户经营计划专家 v1.0

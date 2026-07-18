@@ -10,7 +10,7 @@ alliance:
   color: "#4299e1"
   pipeline_stage: 行业洞察
   compass: planning
-disable: true
+disable: false
 ---
 
 # 商业分析报告生成器

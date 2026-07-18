@@ -69,7 +69,22 @@ compiled_methodology:
     - models.quality_scoring: 输出质量评分标准（五维度+阈值）
     - models.error_patterns: 错误模式+纠正规则（4个）
     - models.semantic_query_templates: 语义查询模板（4个）
-disable: true
+disable: false
+alliance:
+  version: "2.0.0"
+  department: 情报司
+  role: 商机识别
+  pipeline_phase: 2
+  upstream:
+    - 行业洞察专家
+    - 客户洞察专家
+  downstream:
+    - 漏斗构建专家
+    - 策略赢单专家
+  capabilities:
+    - 商机评分
+    - 信号识别
+
 ---
 
 # 商机洞察专家 v2.0（融合线索开发）

@@ -16,7 +16,7 @@ alliance:
   upstream: []
   downstream: []
   color: "#9F7AEA"
-disable: true
+disable: false
 ---
 
 # 销售助理Agent (Sales Assistant)

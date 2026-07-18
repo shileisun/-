@@ -7,7 +7,7 @@ description: |
   🔥 v5.0重大升级：四种销售模式完整能力画像、重铁三角架构、操盘手角色、矩阵化管理模式、肩并肩客户经营组织、销售4.0时代新要求
   🔥 v3.0新增：销售4.0时代组织变革、GMS模型深化、五级客户关系、组织能力体系
 agent_created: true
-version: 9
+version: 9.0.0
 alliance:
   version: 9.0"9.0"
   department: 谋略司
@@ -18,7 +18,7 @@ alliance:
   downstream:
     - 漏斗构建专家
     - 生态伙伴专家
-disable: true
+disable: false
 ---
 
 # 组织设计专家 v5.0

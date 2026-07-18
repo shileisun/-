@@ -31,7 +31,7 @@ trigger_keywords:
   - 销售赋能
   - 崔建中
   - 价值型销售
-version: v2.0
+version: 2.0.0
 agent_created: true
 base_documents:
   - 崔建中「B2B销售体系建设的思考」完整文档（13章/3.5万字）
@@ -48,7 +48,7 @@ alliance:
   upstream:
     - 组织设计专家
   downstream: []
-disable: true
+disable: false
 ---
 
 # 销售体系构建Agent v2.0

@@ -6,7 +6,7 @@ description: |
   基于"专家营销体系"进行生态伙伴选择与销售绩效管理。当用户需要进行生态伙伴策略设计、渠道管理优化、销售绩效指标设计、合作伙伴选择时触发。适用于渠道建设、生态合作、绩效管理等场景。
   🔥 v12.1升级：融入5大理论体系（提示词工程/客户好感三维度/业务结果四阶段/行业洞察区别/AI原生CRM架构）
 agent_created: true
-version: 13
+version: 13.0.0
 alliance:
   version: "13.0"
   department: 谋略司
@@ -21,7 +21,7 @@ alliance:
     - 动态路由
     - 场景记忆
     - 自主决策
-disable: true
+disable: false
 ---
 
 # 生态伙伴专家 v4.0

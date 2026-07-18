@@ -13,7 +13,7 @@ description: |
   🔥 新增：8大场景定义、46个WBS关键动作、20个控制点、29个核心洞察、14个Q&A知识库、11个工具模板
   🔥 融合：ABCDE客户分级、三要素准入法则、四象限定性、六类角色人力地图、Coach发展、报价三型法则、输单五维归因
 agent_created: true
-version: 12
+version: 12.0.0
 alliance:
   version: 12
   department: 监察司
@@ -29,7 +29,7 @@ compiled_methodology:
     - models.error_patterns: 错误模式+纠正规则
     - models.tenant_domain: 租户域权限+指标公式+时间智能
   note: LTC过程管控输出前，读取quality_scoring做质量自查；指标计算使用tenant_domain.indicator_formulas
-disable: true
+disable: false
 ---
 
 # 销售管理专家 v10.0

@@ -1,7 +1,7 @@
 ---
 title: 销售日常驾驶舱
 name: sales-daily-dashboard
-version: 1
+version: 1.0.0
 description: |
   [原名：销售日常驾驶舱]
   每日上午10:00自动生成销售驾驶舱报告，连接纷享销客CRM获取客户/商机/销售任务数据，结合量子蜂群FABM客户数据库，生成今日任务、跟进提醒、绩效诊断、本周计划的完整驾驶舱。触发词：今日任务、销售驾驶舱、每日报告、今天做什么、本周计划。
@@ -26,7 +26,19 @@ knowledge_sources:
   - 量子蜂群 v12.0 销售日常驾驶舱模块
   - FABM客户数据库（2,982家浙江企业）
   - 纷享销客CRM对象模型（Account/Lead/Opportunity/Task）
-disable: true
+disable: false
+alliance:
+  version: "1.0.0"
+  department: 监察司
+  role: 日常驾驶舱
+  pipeline_phase: 10
+  upstream:
+    - 销售管理专家
+  downstream:
+  capabilities:
+    - 数据看板
+    - 日报
+
 ---
 
 # 销售日常驾驶舱 Skill v1.0

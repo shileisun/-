@@ -17,7 +17,7 @@ alliance:
   upstream: []
   downstream: []
   color: "#48bb78"
-disable: true
+disable: false
 ---
 
 # 伙伴业务诊断Agent v3.1

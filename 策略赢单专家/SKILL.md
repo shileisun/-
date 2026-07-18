@@ -10,7 +10,7 @@ description: |
   🔥 v12.0全面升级：结构重整（修复章节编号/合并重复区块）、新增6大场景实战手册（高层破冰/技术攻坚/价格博弈/输单翻盘/存量增购/竞品反超）、新增输单复盘框架（五维度根因分析）、新增CRM MCP集成指南、量化模型升级（竞品威胁度CTM+客户紧迫度CUS）
   🔥 v11.0~v4.1：九问深度实战注入 + 赢率量化模型 + 全角色识别
 agent_created: true
-version: 13
+version: 13.0.0
 alliance:
   version: "13.0"
   department: 执行司
@@ -37,7 +37,7 @@ compiled_methodology:
     - models.lead_development_pipeline: 线索开发六步工作流（6步+8条规则）
     - models.quality_scoring: 输出质量评分（五维度+阈值）
   note: 赢单策略输出前，读取quality_scoring做质量自查；客户评分优先使用JSON中的编译规则
-disable: true
+disable: false
 ---
 
 # 策略赢单专家 v13.0

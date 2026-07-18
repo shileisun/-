@@ -8,7 +8,7 @@ description: |
   🔥 v13.0：量子蜂群学习迭代——注入张睿CRM落地策略：客户全生命周期四阶段漏斗分层、意向客户☆评级体系融入漏斗判断、ABM工具路径全链路
   🔥 v12.1升级：融入5大理论体系（提示词工程/客户好感三维度/业务结果四阶段/行业洞察区别/AI原生CRM架构）
 agent_created: true
-version: 13
+version: 13.0.0
 alliance:
   version: "13.0"
   department: 谋略司
@@ -23,7 +23,7 @@ alliance:
     - 动态路由
     - 场景记忆
     - 自主决策
-disable: true
+disable: false
 ---
 
 # 漏斗构建专家 v2.0

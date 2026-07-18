@@ -7,7 +7,18 @@ updated: 2026-06-16-v10（系统思考+决策体系升级）
 agent_created: true
 serves: 石磊
 independent_of: 量子蜂群
-disable: true
+disable: false
+alliance:
+  version: "4.0.0"
+  department: 思维层
+  role: 石磊认知辅助
+  pipeline_phase: 0
+  upstream:
+  downstream:
+  capabilities:
+    - 八字命理
+    - 系统思考
+
 ---
 
 # 认知专家 v4.0

@@ -23,7 +23,7 @@ alliance:
   upstream: []
   downstream: []
   color: "#48bb78"
-disable: true
+disable: false
 ---
 
 # 浙江渠道周报生成器

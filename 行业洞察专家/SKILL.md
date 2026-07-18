@@ -20,7 +20,20 @@ methodology_references:
   - 五看三定方法论
   - 行业评估模型
   - 市场洞察框架
-disable: true
+disable: false
+alliance:
+  version: "2.0.0"
+  department: 谋略司
+  role: 行业洞察
+  pipeline_phase: 1
+  upstream:
+  downstream:
+    - 客户洞察专家
+    - 商机洞察专家
+  capabilities:
+    - 行业研究
+    - 14000字报告
+
 ---
 
 # 行业洞察专家 v1.0

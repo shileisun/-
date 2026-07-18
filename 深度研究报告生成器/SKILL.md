@@ -12,7 +12,7 @@ alliance:
   upstream: []
   downstream: []
   color: "#4299e1"
-disable: true
+disable: false
 ---
 
 # 深度研究报告生成器

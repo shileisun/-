@@ -4,7 +4,19 @@ version: 1.0.0
 description: 量子蜂群·认知升维层 基于苏格拉底提问圈的六层拷问框架，对专家输出和用户认知进行深度质疑、
   假设检验、视角转换和后果推演。不是第12个专家，而是作用于所有11专家的 元认知引擎。核心使命：通过系统性质疑打破认知惯性，驱动用户思维进化。
 agent_created: true
-disable: true
+disable: false
+alliance:
+  version: "1.0.0"
+  department: 思维层
+  role: 认知升维
+  pipeline_phase: 0
+  upstream:
+    - 深度思考引擎
+  downstream:
+  capabilities:
+    - 六层拷问
+    - 质疑
+
 ---
 
 # 苏格拉底拷问引擎 v1.0 — 量子蜂群的认知升维层

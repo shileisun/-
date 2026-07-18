@@ -6,7 +6,7 @@ description: |
   适用于制造业/汽配行业B2B销售拜访场景。
   当销售人员需要进行客户拜访前的系统性准备时触发。
 agent_created: true
-version: 1
+version: 1.0.0
 alliance:
   version: "9.0"
   department: 执行司
@@ -20,7 +20,7 @@ alliance:
   capabilities:
     - 清单引导
     - 模板输出
-disable: true
+disable: false
 ---
 
 # 访前准备 v1.0

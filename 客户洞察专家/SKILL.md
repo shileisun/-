@@ -29,7 +29,7 @@ compiled_methodology:
     - models.tenant_domain: 租户域权限+指标公式+时间智能
     - models.semantic_query_templates: 语义查询模板
     - models.quality_scoring: 输出质量评分（五维度+阈值）
-disable: true
+disable: false
 ---
 
 # 客户洞察专家 v3.1

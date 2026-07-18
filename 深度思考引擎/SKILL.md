@@ -4,7 +4,20 @@ version: 1.0.0
 description: 量子蜂群·深度思考层 v1.0 融合苏格拉底提问圈、费曼学习法、第一性原理，构建三重深度思考能力。
   核心使命：不仅能分析答案，更能质疑问题本身；不仅能学习知识，更能转化知识； 不仅能用经验推理，更能从第一性原理重构问题。
 agent_created: true
-disable: true
+disable: false
+alliance:
+  version: "1.0.0"
+  department: 思维层
+  role: 深度思考
+  pipeline_phase: 0
+  upstream:
+  downstream:
+    - 苏格拉底拷问引擎
+  capabilities:
+    - 苏格拉底
+    - 费曼
+    - 第一性原理
+
 ---
 
 # 深度思考引擎 v1.0 — 量子蜂群的深度思考层

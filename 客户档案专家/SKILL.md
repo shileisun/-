@@ -14,7 +14,19 @@ trigger_keywords:
   - 客户分层
 author: 量子蜂群
 last_update: 2026-06-12
-disable: true
+disable: false
+alliance:
+  version: "6.0.0"
+  department: 情报司
+  role: 客户数据库
+  pipeline_phase: 1
+  upstream:
+  downstream:
+    - 客户洞察专家
+  capabilities:
+    - 客户分层
+    - 档案查询
+
 ---
 
 # 客户档案专家

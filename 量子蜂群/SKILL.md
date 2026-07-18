@@ -1,7 +1,7 @@
 ---
 title: 量子蜂群
 name: 量子蜂群
-version: 16.2
+version: 16.2.0
 description: AI原生销售智能系统 - v16.2：方法论编译引擎 + 评测集运行器 + 语义层架构升级（确定性规则从Prompt中解放，可编程可测试可审计）
 agent_created: true
 agent_tags:
@@ -62,17 +62,15 @@ knowledge_sources:
   - v15.0新增：A2A v1.0规范（Linux Foundation, 2026年3月）
   - v15.0新增：Self-Evolving Agents综述（TMLR 2026, 700+参考文献）
 skill_directory:
-  - 谋略司：行业洞察专家(行业洞察专家/SKILL.md) / 营销规划专家(marketing-planning-advisor/SKILL.md) /
-    漏斗构建专家(漏斗构建专家/SKILL.md)
-  - 执行司：策略赢单专家(策略赢单专家/SKILL.md) / 信任拜访专家(信任拜访专家/SKILL.md) /
-    解决方案专家(解决方案专家/SKILL.md)
-  - 经营司：客户经营专家(客户经营专家/SKILL.md) / 客户洞察专家(客户洞察专家/SKILL.md)
-  - 监察司：销售管理专家(销售管理专家/SKILL.md) / 销售教练专家(未创建)
-  - 增长司：价值营销专家(价值营销专家/SKILL.md) / 销售日常驾驶舱(销售日常驾驶舱/SKILL.md)
-  - 中枢：联盟总指挥(alliance-commander/SKILL.md)
-  - 语义层：业务域(business-domain-semantic) / 汽配(auto-parts-semantic) /
-    制造(manufacturing-semantic) / 医疗(medical-crm-semantic) /
-    租户域(tenant-domain-semantic)
+  - 情报司：行业洞察专家 / 客户洞察专家 / 商机洞察专家 / 客户档案专家 / 深度研究报告生成器 / 会议纪要需求整理 / 访前准备
+  - 谋略司：漏斗构建专家 / 策略赢单专家 / 价值营销专家 / 营销规划专家【待创建】
+  - 执行司：信任拜访专家 / 解决方案专家【待创建】 / 销售助理 / 销售体系构建Agent
+  - 经营司：客户经营专家 / 客户经营计划专家 / 生态伙伴专家 / 伙伴业务诊断Agent / 组织设计专家
+  - 监察司：销售管理专家 / 销售教练专家【待创建】 / 销售日常驾驶舱 / 浙江渠道周报生成器
+  - 思维层：深度思考引擎 / 苏格拉底拷问引擎 / 认知专家
+  - 中枢：联盟总指挥(alliance-commander) / 元(量子蜂群)
+  - 语义层（降级可选·当前缺失，路线A后续补建）：business-domain-semantic / auto-parts-semantic / manufacturing-semantic / medical-crm-semantic / tenant-domain-semantic【均待创建】
+
 methodology_references:
   - 策略九问：夏凯《赢单九问》
   - 信任五环：夏凯《信任五环®》独立著作
@@ -124,7 +122,20 @@ methodology_references:
   - AgentOps观测：Token消耗/性能/质量可监控
   - 模型分层策略：小模型分类大模型推理
   - 自进化闭环：输出审计→反馈采集→策略迭代
-disable: true
+disable: false
+alliance:
+  version: "16.2.0"
+  department: 元/中枢
+  role: 体系总纲
+  pipeline_phase: 0
+  upstream:
+  downstream:
+    - alliance-commander
+    - 全专家
+  capabilities:
+    - 方法论编译
+    - 自进化
+
 ---
 
 # 量子蜂群 v12.0 Agentic AI

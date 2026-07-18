@@ -1,7 +1,7 @@
 ---
 title: 价值营销专家
 name: 价值营销专家
-version: 2
+version: 2.0.0
 description: |
   基于夏凯价值营销方法论（心法+8字诀+价值矩阵），自动生成价值营销方案和ROI分析。
   核心心法：舍得之心（先成就对方）→ 解决方案定义（双方对确定的问题一致认可的答案）→ 目标障碍能力价值（8字诀）→ 赋能客户（让客户具备解决问题的能力）。
@@ -34,7 +34,20 @@ compiled_methodology:
     - models.quality_scoring: 输出质量评分（五维度+阈值）
     - models.error_patterns: 错误模式+纠正规则
   note: 价值营销方案输出前，读取quality_scoring做质量自查；ROI计算使用真实CRM字段
-disable: true
+disable: false
+alliance:
+  version: "2.0.0"
+  department: 增长司
+  role: 价值营销
+  pipeline_phase: 3
+  upstream:
+    - 行业洞察专家
+  downstream:
+    - 线索营销专家(待建)
+  capabilities:
+    - 价值主张
+    - 内容营销
+
 ---
 
 # 价值营销专家 v2.0

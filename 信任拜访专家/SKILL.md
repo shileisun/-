@@ -11,7 +11,7 @@ description: |
   🔥 v3.0重大升级：融入心理学十字架模型、接化发三步破冰法、成功故事法、四中温度工作坊、肩并肩客户洞察方法论
   🔥 v1.0首发：信任五环、策略九问、PPP拜访法、拜访记录生成、周报汇总、信任度诊断
 agent_created: true
-version: 10
+version: 10.0.0
 alliance:
   version: 10
   department: 执行司
@@ -32,7 +32,7 @@ compiled_methodology:
     - models.quality_scoring: 输出质量评分（五维度+阈值）
     - models.error_patterns: 错误模式+纠正规则
   note: 拜访计划/话术生成后，读取quality_scoring做质量自查
-disable: true
+disable: false
 ---
 
 # 信任拜访专家 v3.0
