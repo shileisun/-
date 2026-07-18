@@ -122,9 +122,7 @@ eval_state_machine:
     desc: 回归后回滚到上版
 
 # 待实体化清单（后续迭代）
-pending_entity:
-  - prompts/question_formula_v1.0.0.yaml           # 提问公式（屠龙术）
-  - prompts/self_check_list_v1.0.0.yaml            # 自检清单
+pending_entity: []  # 全部实体化完成 ✅
 
 evolution:
   last_modified: 2026-07-19

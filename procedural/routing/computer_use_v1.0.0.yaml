@@ -1,0 +1,80 @@
+# Computer Use 集成 v1.0.0
+# 程序记忆 · 对应 v17 §2.12 Computer Use（新增）
+# 来源：Anthropic Claude Computer Use (2026-03) + Claude Cowork 全景
+---
+version: 1.0.0
+component: computer_use_integration
+name: Computer Use 集成
+source: Anthropic Claude Computer Use (2026-03)
+
+# 核心理念：Agent 从"调 API"升级为"操控 GUI"
+# 当目标系统无 API/MCP 时，Agent 可通过 Computer Use 操控浏览器/桌面应用
+capability: |
+  Claude Computer Use 能力：
+  - 看屏幕（截图识别）
+  - 操控鼠标（点击/拖拽/滚动）
+  - 操控键盘（输入/快捷键）
+  - 打开应用/浏览器
+  - 填写表单/导出数据
+
+# 适用场景（量子蜂群落地）
+use_cases:
+  - id: crm_data_export
+    desc: 纷享销客 CRM 无导出 API 时，Agent 操控浏览器导出客户清单
+    fallback_of: fxiaoke-crm MCP Server
+    autonomy_level: 4    # 异常时人工介入
+  - id: qichacha_deep_query
+    desc: 企查查复杂查询（股权穿透/关联企业）无 API 时，Agent 操控浏览器
+    fallback_of: qichacha MCP Server
+    autonomy_level: 4
+  - id: tencent_doc_fill
+    desc: 腾讯文档填写报价单/合同模板，无 API 时 Agent 操控
+    fallback_of: tencent-docs MCP Server
+    autonomy_level: 2    # 写操作需审批
+  - id: meeting_transcript
+    desc: 腾讯会议转录导出，无 API 时 Agent 操控
+    fallback_of: tencent-meeting MCP Server
+    autonomy_level: 4
+  - id: ppt_generation
+    desc: WPS/PPT 生成销售方案，Agent 操控桌面应用
+    autonomy_level: 3    # 执行后复核
+  - id: excel_report
+    desc: Excel 生成客户清单/周报，Agent 操控
+    autonomy_level: 3
+
+# 降级链
+degradation_chain:
+  - tier: 1
+    method: MCP Server（首选，有 API 走 API）
+  - tier: 2
+    method: Computer Use（无 API 时，Agent 操控 GUI）
+  - tier: 3
+    method: 人工操作（Computer Use 失败/不安全时）
+
+# 安全约束
+security_constraints:
+  - constraint: "Computer Use 操作必须录屏（可审计）"
+  - constraint: "写操作（CRM/文档/邮件）必须 HITL 审批"
+  - constraint: "禁止操作系统级危险操作（删文件/改配置）"
+  - constraint: "每次操作记录截图序列 → trace"
+  - constraint: "操作失败 3 次自动降级为人工"
+
+# 与 v17 组件咬合
+integration:
+  mcp_server_cards: "Computer Use 是 MCP Server 不可达时的降级路径"
+  hitl: "Computer Use 写操作必须经 HITL 审批"
+  security_guardrails: "操作录屏 + 截图序列写入 trace"
+  observability: "每次 Computer Use 操作写 trace span（含截图）"
+  degradation_policy: "Computer Use 失败 → 降级为人工操作"
+
+# 成本与性能
+cost_considerations:
+  token_consumption: "Computer Use 比 API 调用高 ~5-10x Token（截图识别）"
+  latency: "比 API 调用慢 ~3-5x（GUI 操作延迟）"
+  guidance: "优先 MCP，Computer Use 仅作降级，非首选"
+
+evolution:
+  last_modified: 2026-07-19
+  last_event: initial_creation
+  eval_status: pending
+  parent_version: null

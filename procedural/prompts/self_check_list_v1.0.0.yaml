@@ -1,0 +1,95 @@
+# 自检清单 v1.0.0
+# 程序记忆 · 对应量子蜂群 §10 推理链与嵌入式思考
+# 所有专家输出前必做的质量自查
+---
+version: 1.0.0
+component: self_check_list
+name: 输出质量自检清单
+source: 量子蜂群 §10 + v16.2 quality_scoring 规程3
+
+# 五维质量评分（对应 methodology KB quality_scoring.dimensions）
+quality_dimensions:
+  - id: accuracy
+    name: 准确性
+    desc: 事实/数据/引用是否准确
+    weight: 0.25
+    scoring: "1-10分"
+  - id: completeness
+    name: 完整性
+    desc: 是否覆盖所有必要维度
+    weight: 0.20
+    scoring: "1-10分"
+  - id: actionability
+    name: 可执行性
+    desc: 输出是否可直接执行（非空泛建议）
+    weight: 0.25
+    scoring: "1-10分"
+  - id: reasoning_chain
+    name: 推理链
+    desc: 事实→依据→量化→建议→行动 是否完整
+    weight: 0.20
+    scoring: "1-10分"
+  - id: personalization
+    name: 个性化
+    desc: 是否贴合具体客户/行业/角色
+    weight: 0.10
+    scoring: "1-10分"
+
+# 质量门控
+quality_gate:
+  pass: 8.5        # ≥8.5 直接交付
+  retry: 6.0       # 6.0-8.4 自审修正后交付
+  fail: 6.0        # <6.0 不交付，重做
+
+# 自检流程
+self_check_flow:
+  - id: 1
+    name: dimension_scoring
+    desc: 五维度逐项打分（1-10分）
+  - id: 2
+    name: weighted_total
+    desc: 计算加权总分
+    formula: "Σ(dimension_score × weight)"
+  - id: 3
+    name: gate_decision
+    desc: 按质量门控决定交付/修正/重做
+    branches:
+      - condition: "total >= 8.5"
+        action: deliver
+      - condition: "6.0 <= total < 8.5"
+        action: self_revise_then_deliver
+      - condition: "total < 6.0"
+        action: redo
+
+# 推理链必含要素（每个输出必须包含）
+reasoning_chain_required:
+  - fact: 事实是什么（Fact）
+  - why: 为什么是这个（Why）
+  - measure: 定量依据是什么（Measure）
+  - so: 所以建议是（So）
+  - next: 下一步行动是什么（Next）
+
+# 错误预防（对应 methodology KB error_patterns）
+error_prevention:
+  - pattern: "凭空脑补数据"
+    correction: "无数据时标注'待验证'，禁止编造"
+  - pattern: "空泛建议（如'加强管理'）"
+    correction: "建议必须含具体动作+负责人+时间"
+  - pattern: "忽略决策角色"
+    correction: "价值主张必须分角色（EB/T-CB/UB/EK）"
+  - pattern: "ROI 无测算依据"
+    correction: "ROI 必须用公式库 5 公式之一，标注假设"
+
+# 交付标准（硬性）
+delivery_standards:
+  - 每个专家输出必须有：事实→依据→量化→建议→行动
+  - 每个工作流必须有：触发→执行→交付→归档→提醒
+  - 每个报告必须有：数据→分析→结论→可执行下一步
+  - 每次交互必须有：有人味、有结构、有画面感
+
+# 自进化元数据
+evolution:
+  last_modified: 2026-07-19
+  last_event: initial_creation
+  eval_status: pending
+  parent_version: null

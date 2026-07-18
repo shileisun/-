@@ -1,0 +1,85 @@
+# 提问公式（屠龙术）v1.0.0
+# 程序记忆 · 对应量子蜂群 §07 提示词工程
+# 所有专家共用的提问模板
+---
+version: 1.0.0
+component: question_formula
+name: 屠龙术提问公式
+source: 孙石磊 SaaS AI Mate 直播逐字稿
+
+# 核心提问公式
+formula:
+  template: |
+    我是[什么公司的谁]
+    我正在[干什么事儿]
+    我需要在[什么范围内]就[什么事儿]
+    拿到[什么结果]
+    帮我做[具体任务]
+  elements:
+    - id: who
+      name: 我是谁
+      desc: 公司+岗位+角色
+      example: "我是纷享销客浙江分公司销售总监"
+    - id: context
+      name: 我正在
+      desc: 当前场景+任务
+      example: "我正在做浙江市场的行业选择评估"
+    - id: scope
+      name: 我需要在
+      desc: 时间范围+空间范围
+      example: "我需要在未来一周内"
+    - id: result
+      name: 拿到
+      desc: 期望结果+交付物
+      example: "拿到浙江省重点行业的评分和进攻策略"
+    - id: task
+      name: 帮我做
+      desc: 具体任务+动作
+      example: "帮我做浙江市场的行业评估"
+
+# 分专家提问模板
+expert_templates:
+  - expert: 行业洞察专家
+    template: "我是[公司][岗位]，我正在[区域]做行业选择，帮我做[区域]市场的行业评估"
+  - expert: 客户洞察专家
+    template: "我是[公司][岗位]，我正在跟进[客户]，帮我做[客户]的360度客户洞察"
+  - expert: 价值营销专家
+    template: "我是[公司][岗位]，我正在做[客户]的项目方案，帮我做[客户]的价值营销方案"
+  - expert: 策略赢单专家
+    template: "我是[公司][岗位]，我正在跟进[项目]，帮我做[客户]的赢单策略分析"
+  - expert: 信任拜访专家
+    template: "我是[公司][岗位]，我正在准备[客户]的拜访，帮我做拜访计划+话术"
+
+# 常见错误
+common_errors:
+  - error: 缺少身份
+    wrong: "帮我做行业评估"
+    right: "我是纷享销客浙江销售总监，帮我做浙江市场的行业评估"
+  - error: 缺少场景
+    wrong: "帮我做客户洞察"
+    right: "我正在跟进舜宇光学项目，帮我做舜宇光学的客户洞察"
+  - error: 缺少结果
+    wrong: "帮我做价值营销"
+    right: "我需要拿到针对CIO的价值主张卡和ROI分析"
+  - error: 任务不具体
+    wrong: "帮我分析一下"
+    right: "帮我做舜宇光学POC的赢单策略"
+
+# 高级技巧
+advanced_techniques:
+  - id: step_by_step
+    name: 分步提问（复杂任务）
+    desc: 复杂任务拆成多轮，每轮等输出后再进下一步
+  - id: iterative_deepening
+    name: 追问深化（迭代优化）
+    desc: 逐轮聚焦——洞察→角色→话术→邮件
+  - id: specify_format
+    name: 指定输出格式
+    desc: 明确要求数据/分析/结论/行动的结构
+
+# 自进化元数据
+evolution:
+  last_modified: 2026-07-19
+  last_event: initial_creation
+  eval_status: pending
+  parent_version: null

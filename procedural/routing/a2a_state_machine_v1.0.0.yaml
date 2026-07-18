@@ -1,0 +1,91 @@
+# A2A 任务状态机 v1.0.0
+# 程序记忆 · 对应 v17 §2.5 A2A 全量化
+# 实体化自 A2A v1.0 规范（Linux Foundation, 2026-03-12 发布）
+---
+version: 1.0.0
+component: a2a_task_state_machine
+spec: A2A v1.0 (Linux Foundation)
+spec_date: 2026-03-12
+
+# 任务状态定义（A2A v1.0 规范）
+states:
+  - id: submitted
+    desc: 任务已提交给专家
+    transitions: [working, failed, rejected]
+  - id: working
+    desc: 专家正在执行
+    transitions: [input_required, completed, failed]
+  - id: input_required
+    desc: 需要用户/其他专家补充输入
+    transitions: [working, failed]
+    hitl_trigger: true   # 触发 Human-in-the-Loop（v17 §2.11）
+  - id: completed
+    desc: 任务完成，已返回结果
+    transitions: []      # 终态
+  - id: failed
+    desc: 任务失败
+    transitions: []      # 终态
+  - id: rejected
+    desc: 任务被拒绝（能力不��配）
+    transitions: []      # 终态
+
+# 状态转换规则
+transitions:
+  - from: submitted
+    to: working
+    condition: "专家接受任务 + Agent Card 能力匹配"
+  - from: submitted
+    to: rejected
+    condition: "专家能力不匹配 / 超出 Agent Card 声明"
+  - from: working
+    to: input_required
+    condition: "专家需要用户补充信息（如客户数据/决策链）"
+    action: "推送通知给用户 + 暂停执行"
+  - from: input_required
+    to: working
+    condition: "用户补充输入后恢复"
+  - from: working
+    to: completed
+    condition: "专家返回结果 + 质量门通过（≥8.5）"
+  - from: working
+    to: failed
+    condition: "执行异常 / 质量门持续未通过 / 超时"
+
+# 推送通知（异步回调，支持自主模式长任务）
+push_notifications:
+  enabled: true
+  events:
+    - state_changed       # 状态转换通知
+    - input_required      # 需要用户输入
+    - completed           # 任务完成
+    - failed              # 任务失败
+    - quality_warning     # 质量分 < 6.0
+  transport: SSE          # Server-Sent Events
+  webhook_url_env: A2A_WEBHOOK_URL
+
+# Agent Card 字段（A2A v1.0 规范）
+agent_card_fields:
+  - name                  # 专家名称
+  - description           # 能力描述
+  - capabilities          # 能力列表
+  - skills                # 技能标签
+  - default_model_tier    # 默认模型层级
+  - cost_tier             # 成本层级
+  - topology              # 推荐拓扑
+  - input_schema          # 输入 schema
+  - output_schema         # 输出 schema
+  - endpoints             # 调用端点
+
+# 与 v17 组件咬合
+integration:
+  context_engineering: "每个任务独立上下文（context_isolation=true）"
+  moa: "completed 前过质量门（MoA 综合评分）"
+  evolution_bus: "failed → 触发 eval_regression 事件 → 自进化"
+  hitl: "input_required → 触发 Human-in-the-Loop 审批"
+  observability: "每次状态转换写 trace span"
+
+evolution:
+  last_modified: 2026-07-19
+  last_event: initial_creation
+  eval_status: pending
+  parent_version: null
