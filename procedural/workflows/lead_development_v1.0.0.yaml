@@ -1,0 +1,107 @@
+# 工作流三：线索开发流 v1.0.0
+# 程序记忆 · 对应量子蜂群 §01 四大标准化工作流
+# 找客户（线索开发六步工作流）
+---
+version: 1.0.0
+workflow_id: wf_lead_development
+name: 线索开发流
+trigger:
+  keywords: ["帮我开发XX行业的商机线索", "找客户", "线索开发"]
+  intent: lead_development
+pipeline: MTL
+target_time_seconds: 15
+
+orchestration:
+  topology: chain
+  model_tier: smart
+  context_isolation: true
+  budget_tokens: 30000
+
+steps:
+  - id: 1
+    name: identity_positioning
+    desc: 你是谁？卖什么？卖给谁？
+    expert: alliance-commander
+    output: user_profile
+
+  - id: 2
+    name: customer_retrieval
+    desc: 客户检索（基于洞察流已有数据）
+    expert: 客户档案专家
+    mcp_calls:
+      - server: fabm-db
+        tool: customer_query
+        degradation: "用户手动输入"
+    output: customer_list[]
+
+  - id: 3
+    name: demand_analysis
+    desc: 识别 3-5 个潜在商机领域
+    expert: 商机洞察专家
+    input: [customer_list]
+    output: opportunity_fields[]
+
+  - id: 4
+    name: key_person_ranking
+    desc: 关键人排序（按决策影响力 EB/T-CB/T-AB/UB/EK）
+    expert: 客户洞察专家
+    input: [customer_list, opportunity_fields]
+    output: key_persons_ranked[]
+
+  - id: 5
+    name: value_proposition_generation
+    desc: 价值主张生成（基于客户 KPI 精准匹配）
+    expert: 价值营销专家
+    input: [key_persons_ranked, opportunity_fields]
+    mcp_calls:
+      - server: fxiaoke-crm
+        tool: crm_indicator_query
+        degradation: "通用价值主张模板"
+    output: value_propositions[]
+
+  - id: 6
+    name: marketing_email_generation
+    desc: 营销邮件生成（定制化，含价值量化+案例）
+    expert: 价值营销专家
+    input: [value_propositions, key_persons_ranked]
+    output: marketing_emails[]
+
+  - id: 7
+    name: next_action
+    desc: 邀约理由+电话号码+二维码
+    expert: 销售助理
+    input: [key_persons_ranked]
+    output: next_actions[]
+
+  - id: 8
+    name: deliverable
+    desc: 商机清单 + 关键人列表 + 营销邮件
+    expert: alliance-commander
+    output: lead_development_package
+
+deliverables:
+  - opportunity_list        # 商机清单
+  - key_person_list         # 关键人列表
+  - marketing_emails        # 营销邮件（可直接发送）
+
+degradation:
+  - condition: "FABM 缺失"
+    action: 用户手动输入客户清单
+  - condition: "CRM 不可达"
+    action: 通用价值主张模板
+  - condition: "邮件工具缺失"
+    action: 输出邮件文本，用户手动发送
+
+eval_cases:
+  - id: ec-wf3-001
+    input: "帮我开发宁波汽配行业的商机线索"
+    expected: 3-5 商机 + 关键人排序 + 定制化邮件
+  - id: ec-wf3-002
+    input: "面向欧达光电做线索开发"
+    expected: 商机清单 + 价值主张卡 + 可发送邮件
+
+evolution:
+  last_modified: 2026-07-19
+  last_event: initial_creation
+  eval_status: pending
+  parent_version: null

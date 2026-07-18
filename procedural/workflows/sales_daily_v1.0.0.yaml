@@ -1,0 +1,101 @@
+# 工作流四：销售日常流 v1.0.0
+# 程序记忆 · 对应量子蜂群 §01 四大标准化工作流
+# 今天做什么（每日任务/跟进/周报/绩效全自动）
+---
+version: 1.0.0
+workflow_id: wf_sales_daily
+name: 销售日常流
+trigger:
+  keywords: ["今天做什么", "帮我规划本周", "销售日常", "今日任务"]
+  intent: sales_daily
+pipeline: Ops
+target_time_seconds: 10
+
+orchestration:
+  topology: chain
+  model_tier: fast             # 日常流追求快，用 Fast 模型
+  context_isolation: true
+  budget_tokens: 10000         # 日常流预算低
+  scheduled: true              # 支持定时执行（每日 5 点自动跑）
+  schedule_cron: "0 5 * * *"
+
+steps:
+  - id: 1
+    name: today_todo
+    desc: 自动读取未跟进客户/待处理商机
+    expert: 销售日常驾驶舱
+    mcp_calls:
+      - server: fxiaoke-crm
+        tool: crm_followup_list
+        degradation: "提示用户手动查看 CRM"
+    output: today_todos[]
+
+  - id: 2
+    name: priority_ranking
+    desc: 优先级排序（按客户等级/商机金额/紧急度）
+    expert: 销售日常驾驶舱
+    input: [today_todos]
+    scoring: "A层×金额×紧急度"
+    output: ranked_todos[]
+
+  - id: 3
+    name: talk_track_generation
+    desc: 每个待办客户自动生成触达话术
+    expert: 信任拜访专家
+    input: [ranked_todos]
+    output: talk_tracks[]
+
+  - id: 4
+    name: alert_reminders
+    desc: 30天未跟进客户/异常商机预警
+    expert: 销售日常驾驶舱
+    mcp_calls:
+      - server: fxiaoke-crm
+        tool: crm_alert_query
+        degradation: "无预警（提示用户手动检查）"
+    output: alerts[]
+
+  - id: 5
+    name: improvement_suggestions
+    desc: 基于绩效数据的策略���议
+    expert: 销售管理专家
+    input: [ranked_todos, alerts]
+    output: suggestions[]
+
+  - id: 6
+    name: weekly_plan
+    desc: 自动生成周计划和目标
+    expert: 销售日常驾驶舱
+    input: [ranked_todos, suggestions]
+    output: weekly_plan
+
+  - id: 7
+    name: deliverable
+    desc: 每日任务清单 + 话术卡片 + 周报草稿
+    expert: 销售日常驾驶舱
+    output: daily_package
+
+deliverables:
+  - daily_task_list      # 每日任务清单
+  - talk_track_cards     # 话术卡片
+  - weekly_report_draft  # 周报草稿
+
+degradation:
+  - condition: "CRM 不可达"
+    action: 提示用户手动查看 CRM + 通用任务模板
+  - condition: "绩效数据缺失"
+    action: 跳过改进建议，仅输出任务清单
+
+eval_cases:
+  - id: ec-wf4-001
+    input: "今天做什么"
+    expected: 任务清单 + 话术 + 预警 + 周计划
+  - id: ec-wf4-002
+    input: "帮我规划本周"
+    expected: 周计划 + 优先级排序 + 改进建议
+
+evolution:
+  last_modified: 2026-07-19
+  last_event: initial_creation
+  eval_status: pending
+  parent_version: null

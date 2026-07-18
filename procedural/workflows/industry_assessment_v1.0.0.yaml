@@ -1,0 +1,114 @@
+# 工作流一：行业评估流 v1.0.0
+# 程序记忆 · 对应量子蜂群 §01 四大标准化工作流
+# 选行业（多个行业评分排序）
+---
+version: 1.0.0
+workflow_id: wf_industry_assessment
+name: 行业评估流
+trigger:
+  keywords: ["帮我选行业", "我在XX区域应该做什么行业", "哪个行业值得做"]
+  intent: industry_selection
+pipeline: MTL
+target_time_seconds: 30
+
+# 编排信息
+orchestration:
+  topology: star              # 星型：中枢调度多专家并行
+  model_tier: smart           # 常规用 Smart，复杂用 MoA
+  context_isolation: true     # 子 agent 上下文隔离（v17 §2.1）
+  budget_tokens: 50000
+
+steps:
+  - id: 1
+    name: identity_recognition
+    desc: 你是哪家公司？什么产品？服务什么客户？
+    expert: alliance-commander
+    output: user_profile
+
+  - id: 2
+    name: region_analysis
+    desc: 自动获取区域产业结构
+    expert: 行业洞察专家
+    mcp_calls:
+      - server: qichacha
+        tool: region_industry_query
+        degradation: websearch
+    output: region_industry_structure
+
+  - id: 3
+    name: candidate_industry_generation
+    desc: 根据业务特性+区域特点自动列出候选行业
+    expert: 行业洞察专家
+    input: [user_profile, region_industry_structure]
+    output: candidate_industries[]
+
+  - id: 4
+    name: quantitative_scoring
+    desc: 四维十二指标量化评分（行业吸引力30%/需求强度30%/竞争性20%/价值空间20%）
+    expert: 行业洞察专家
+    model_tier: frontier        # 评分用强推理（v17 §2.6 MoA 候选）
+    mcp_calls:
+      - server: fabm-db
+        tool: industry_customer_count
+        degradation: "用户手动输入"
+    scoring_model: four_dim_twelve_indicator
+    output: industry_scores[]
+
+  - id: 5
+    name: visualization
+    desc: S/A/B/C 分级 + 雷达图
+    expert: 行业洞察专家
+    output: grading_chart
+
+  - id: 6
+    name: attack_strategy
+    desc: S级主战场怎么做、A级增长区怎么做
+    expert: 策略赢单专家
+    input: [industry_scores]
+    output: attack_strategies[]
+
+  - id: 7
+    name: key_customer_list
+    desc: 自动列出每个行业的 TOP 客户
+    expert: 客户档案专家
+    mcp_calls:
+      - server: fabm-db
+        tool: top_customers_by_industry
+        degradation: "用户手动输入"
+    output: key_customers[]
+
+  - id: 8
+    name: deliverable
+    desc: 行业评估报告 + 客户清单 + 行动建议
+    expert: alliance-commander
+    output: industry_assessment_report
+
+# 交付物
+deliverables:
+  - industry_assessment_report   # 含评分/分级/进攻策略
+  - customer_list                # TOP 客户清单
+  - action_advice                # 行动建议
+
+# 降级路径
+degradation:
+  - condition: "企查查 MCP 不可达"
+    action: WebSearch 检索区域产业结构
+  - condition: "FABM 缺失"
+    action: 用户手动输入客户清单
+  - condition: "methodology KB 缺失"
+    action: 降级 Prompt 内联评分规则（精度下降）
+
+# 评测用例
+eval_cases:
+  - id: ec-wf1-001
+    input: "我是纷享销客浙江，帮我选浙江制造业细分行业"
+    expected: 5-7 个候选行业 + 四维评分 + S/A/B/C 分级 + TOP 客户
+  - id: ec-wf1-002
+    input: "我在宁波应该做什么行业"
+    expected: 宁波区域行业 + 评分 + 进攻策略
+
+evolution:
+  last_modified: 2026-07-19
+  last_event: initial_creation
+  eval_status: pending
+  parent_version: null

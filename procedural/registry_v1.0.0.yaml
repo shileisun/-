@@ -18,7 +18,37 @@ entries:
     last_event: initial_creation
 
   # ── workflows（工作流模板）──
-  # 待实体化：行业评估流/客户洞察流/线索开发流/销售日常流
+  - id: industry_assessment
+    type: workflow
+    file: procedural/workflows/industry_assessment_v1.0.0.yaml
+    version: 1.0.0
+    expert: [行业洞察专家, 策略赢单专家, 客户档案专家]
+    eval_status: pending
+    last_event: initial_creation
+
+  - id: customer_insight
+    type: workflow
+    file: procedural/workflows/customer_insight_v1.0.0.yaml
+    version: 1.0.0
+    expert: [客户洞察专家, 商机洞察专家, 信任拜访专家]
+    eval_status: pending
+    last_event: initial_creation
+
+  - id: lead_development
+    type: workflow
+    file: procedural/workflows/lead_development_v1.0.0.yaml
+    version: 1.0.0
+    expert: [客户档案专家, 商机洞察专家, 价值营销专家, 销售助理]
+    eval_status: pending
+    last_event: initial_creation
+
+  - id: sales_daily
+    type: workflow
+    file: procedural/workflows/sales_daily_v1.0.0.yaml
+    version: 1.0.0
+    expert: [销售日常驾驶舱, 信任拜访专家, 销售管理专家]
+    eval_status: pending
+    last_event: initial_creation
 
   # ── prompts（提示词模板）──
   # 待实体化：提问公式/自检清单/各专家提问模板
@@ -68,10 +98,6 @@ eval_state_machine:
 
 # 待实体化清单（后续迭代）
 pending_entity:
-  - workflows/industry_assessment_v1.0.0.yaml    # 行业评估流
-  - workflows/customer_insight_v1.0.0.yaml        # 客户洞察流
-  - workflows/lead_development_v1.0.0.yaml         # 线索开发流
-  - workflows/sales_daily_v1.0.0.yaml              # 销售日常流
   - prompts/question_formula_v1.0.0.yaml           # 提问公式（屠龙术）
   - prompts/self_check_list_v1.0.0.yaml            # 自检清单
   - sop/win_strategy_v1.0.0.yaml                   # 策略赢单专家 SOP

@@ -1,0 +1,127 @@
+# 工作流二：客户洞察流 v1.0.0
+# 程序记忆 · 对应量子蜂群 §01 四大标准化工作流
+# 读懂客户（360 度全景）
+---
+version: 1.0.0
+workflow_id: wf_customer_insight
+name: 客户洞察流
+trigger:
+  keywords: ["帮我读懂XX公司", "帮我做客户洞察", "XX公司怎么样"]
+  intent: customer_insight
+pipeline: MTL
+target_time_seconds: 60
+
+orchestration:
+  topology: chain              # 链式：步骤间有依赖
+  model_tier: frontier         # 深度分析用强推理
+  context_isolation: true
+  budget_tokens: 80000         # 深度报告预算高
+  moa_enabled: true            # 复杂决策启用 MoA（v17 §2.6）
+
+steps:
+  - id: 1
+    name: business_info_retrieval
+    desc: 工商信息检索（企查查/上市年报）
+    expert: 客户洞察专家
+    mcp_calls:
+      - server: qichacha
+        tool: company_info_query
+        degradation: websearch
+    output: business_info
+
+  - id: 2
+    name: vision_strategy_analysis
+    desc: 使命愿景与战略方向解读
+    expert: 客户洞察专家
+    input: [business_info]
+    output: vision_strategy
+
+  - id: 3
+    name: business_kpi_analysis
+    desc: 业务特征分析 + 关键 KPI 提取（自动适配行业）
+    expert: 客户洞察专家
+    input: [business_info]
+    mcp_calls:
+      - server: semantic-industry
+        tool: industry_kpi_lookup
+        degradation: "通用 KPI 兜底"
+    output: business_kpis
+
+  - id: 4
+    name: trend_environment_analysis
+    desc: 发展趋势与产业环境研判
+    expert: 行业洞察专家
+    input: [business_info]
+    output: trend_analysis
+
+  - id: 5
+    name: internal_scenario_insight
+    desc: 内部业务场景洞察（核心流程+现有IT系统+痛点断点）
+    expert: 客户洞察专家
+    input: [business_info, business_kpis]
+    output: scenario_insight
+
+  - id: 6
+    name: key_person_mapping
+    desc: 关键人清单与影响力排序（EB/T-CB/T-AB/UB/EK）
+    expert: 客户洞察专家
+    input: [business_info]
+    output: key_persons[]
+
+  - id: 7
+    name: opportunity_identification
+    desc: 潜在商机识别（5大商机领域+优先级排序）
+    expert: 商机洞察专家
+    input: [business_kpis, scenario_insight]
+    mcp_calls:
+      - server: fxiaoke-crm
+        tool: crm_opportunity_score
+        degradation: "离线评分（methodology KB）"
+    output: opportunities[]
+
+  - id: 8
+    name: visit_strategy
+    desc: 拜访策略建议（关键人接触路径+价值主张）
+    expert: 信任拜访专家
+    input: [key_persons, opportunities]
+    output: visit_strategy
+
+  - id: 9
+    name: deliverable
+    desc: 客户洞察360度报告 + 商机清单 + 拜访计划
+    expert: alliance-commander
+    output: customer_insight_report
+
+# GraphRAG 集成（v17 §2.3）
+graphrag_integration:
+  step: 7  # 商机识别时调用
+  query: "该客户同行已签约什么？选型路径是什么？"
+  max_hops: 3
+  fallback: "无图谱数据时降级为通用商机推断"
+
+deliverables:
+  - customer_insight_360_report   # 8 维度全景
+  - opportunity_list              # 商机清单（优先级排序）
+  - visit_plan                    # 拜访计划
+
+degradation:
+  - condition: "企查查不可达"
+    action: WebSearch + 上市年报
+  - condition: "CRM 不可达"
+    action: 离线评分（methodology KB 规则）
+  - condition: "语义层缺失"
+    action: 通用 KPI 兜底
+
+eval_cases:
+  - id: ec-wf2-001
+    input: "帮我做欧达光电的客户洞察"
+    expected: 360 度报告 + 商机清单 + 决策链 + 拜访策略
+  - id: ec-wf2-002
+    input: "帮我读懂舜宇光学"
+    expected: 8 维度全景 + MATR 评分 + GraphRAG 多跳关联
+
+evolution:
+  last_modified: 2026-07-19
+  last_event: initial_creation
+  eval_status: pending
+  parent_version: null
