@@ -185,6 +185,7 @@ alliance:
 > **核心原则**：确定性业务规则已从Prompt中抽离，编译为 `${SKILLS_DIR}/methodology/methodology_knowledge_base.json`（v3.0，30次迭代，750+行，15个编译模型，25个评测用例全部通过）。
 > **执行规则**：每次执行以下类型任务前，必须先读取该JSON文件对应节点，**禁止在Prompt中重新"理解"规则**。
 > **新增工具**：`pipeline_engine.py` 直接执行确定性规则（6个命令），`evaluation_runner.py` 自动运行评测集。
+> **Prompt Caching（v17.0 新增 · 上下文工程）**：`methodology_knowledge_base.json` 作为确定性规则源，在支持缓存的运行时（如 Anthropic `cache_control: ephemeral`）首次加载后缓存复用，后续调用不重复占用上下文、不计费。降级环境（无缓存能力）则每次读取，但规则块保持「只读、不重述」以控成本（对应 v17 架构优化方案 §2.1）。
 
 ### 编译知识库结构
 

@@ -251,7 +251,9 @@ Mesh：覆盖~10%场景（审计/辩论）
   "context": {
     "user_profile": {"name": "石磊", "company": "纷享销客浙江"},
     "history_summary": "...",
-    "budget_tokens": 50000,
+    "context_isolation": true,                  // v17: 本专家上下文与主调度隔离（不共享超长上下文）
+    "budget_tokens": 50000,                     // 上下文预算上限（超限触发 compaction）
+    "cache_policy": "methodology:ephemeral",    // v17: 确定性规则块走 Prompt Caching
     "topology": "star"
   },
   "config": {
@@ -398,6 +400,42 @@ Anthropic实测数据：多Agent系统token消耗是单Agent的~15x
     "threshold_100%": "stop"
   }
 }
+```
+
+---
+
+## 五·A、上下文工程协议（v17.0 新增 · 对应 v17 架构优化方案 §2.1）
+
+> 来源：Anthropic《Effective context engineering for AI agents》(2025-09)。核心主张：**上下文是有限资源、边际收益递减**；应把上下文当"工作记忆预算"来管理，而非无限制堆 Prompt。
+
+### 三大原则
+
+| 原则 | 做法 | 量子蜂群落点 |
+|------|------|------|
+| **子 agent 上下文隔离** | 每个专家运行时上下文窗口与主调度隔离，不共享一条超长上下文（避免 26 专家注意力稀释） | A2A 调用 `context.context_isolation=true`；专家只收到「本任务相关」的最小上下文 |
+| **上下文预算 + 压缩** | 每次专家调用分配 `budget_tokens`，超限触发 compaction（上下文压缩）或落盘 | 见上方 Token 预算管理；超限自动 summary 压缩历史 |
+| **确定性规则走 Prompt Caching** | 不变的高频内容（方法论编译知识库）首次加载后缓存复用，不重复计费/占上下文 | `methodology_knowledge_base.json` 标记 `cache_policy: ephemeral`（见下方缓存指令） |
+
+### 落盘原则：写文件而非塞上下文
+
+长任务（14000 字行业洞察、客户 360 度报告）的中间推理**写入工作文件**，不在上下文里滚动累积：
+
+```
+专家执行长任务：
+  步骤1 推理 → 写入 {work_dir}/{task_id}/step1.md
+  步骤2 推理 → 追加 step2.md（仅把"上一步结论摘要"放回上下文，非全文）
+  ...
+  最终整合 → 读 work 文件 → 产出交付物
+```
+
+### 缓存指令（Prompt Caching）
+
+```
+对所有「确定性、跨调用不变」的内容块（方法论编译知识库、专家 SOP、
+行业 Know-How 模板）打 cache_control: ephemeral 标记：
+  - 首次加载计入上下文并缓存
+  - 同一会话/连续调用命中缓存，不计费、不重复占上下文
+  - 不支持缓存的运行环境（降级）：每次读取，但保持「只读、不重述」以控成本
 ```
 
 ---
