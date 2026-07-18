@@ -51,7 +51,7 @@ entries:
     last_event: initial_creation
 
   # ── prompts（提示词模板）──
-  # 待实体化：提问公式/自检清单/各专家提问模板
+  # 待实体化：提问公式/自检清单
 
   # ── routing（路由策略）──
   - id: moa_weights
@@ -78,6 +78,31 @@ entries:
     eval_status: pending
     last_event: initial_creation
 
+  # ── 高频专家 SOP ──
+  - id: win_strategy
+    type: sop
+    file: procedural/sop/win_strategy_v1.0.0.yaml
+    version: 1.0.0
+    expert: [策略赢单专家]
+    eval_status: pending
+    last_event: initial_creation
+
+  - id: customer_insight_sop
+    type: sop
+    file: procedural/sop/customer_insight_v1.0.0.yaml
+    version: 1.0.0
+    expert: [客户洞察专家]
+    eval_status: pending
+    last_event: initial_creation
+
+  - id: value_marketing
+    type: sop
+    file: procedural/sop/value_marketing_v1.0.0.yaml
+    version: 1.0.0
+    expert: [价值营销专家]
+    eval_status: pending
+    last_event: initial_creation
+
 # 版本管理规则
 versioning_rules:
   - rule: semver 严格（major.minor.patch）
@@ -100,9 +125,6 @@ eval_state_machine:
 pending_entity:
   - prompts/question_formula_v1.0.0.yaml           # 提问公式（屠龙术）
   - prompts/self_check_list_v1.0.0.yaml            # 自检清单
-  - sop/win_strategy_v1.0.0.yaml                   # 策略赢单专家 SOP
-  - sop/customer_insight_v1.0.0.yaml               # 客户洞察专家 SOP
-  - sop/value_marketing_v1.0.0.yaml                # 价值营销专家 SOP
 
 evolution:
   last_modified: 2026-07-19

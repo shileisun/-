@@ -1,0 +1,115 @@
+# 价值营销专家 SOP v1.0.0
+# 程序记忆 · 对应量子蜂群 §06 价值营销深度引擎
+# 实体化自 SKILL.md v2.0：心法 + 8字诀 + 价值营销五步法 + 价值量化公式库
+---
+version: 1.0.0
+expert: 价值营销专家
+expert_version: 2.0.0
+pipeline: MTL
+pipeline_phase: 3
+trigger:
+  keywords: ["价值营销", "ROI", "价值主张", "价值量化", "KPI诊断"]
+  intent: value_marketing
+
+orchestration:
+  topology: chain
+  model_tier: smart
+  context_isolation: true
+  budget_tokens: 40000
+  moa_enabled: true           # ROI 测算用 MoA 多模型交叉验证
+
+# 核心方法论
+methodology:
+  mindset: 舍得之心           # 先成就对方（vs 得舍之心先拿订单）
+  soul: 8字诀                 # 目标→障碍→能力→价值
+  framework: 价值营销五步法    # 需求→岗位→指标→产品→价值
+  quantification: 价值量化公式库
+
+steps:
+  - id: 1
+    name: demand_analysis
+    desc: 客户有什么需求？（基于客户洞察）
+    input: [customer_insight_report]
+    output: demands[]
+
+  - id: 2
+    name: role_kpi_mapping
+    desc: 哪些岗位涉及？他们的 KPI 是什么？
+    method: 洞察三步法（岗位→目标→障碍）
+    roles: [EB, T-CB, T-AB, UB, EK]
+    mcp_calls:
+      - server: fxiaoke-crm
+        tool: crm_indicator_query
+        degradation: "通用 KPI 模板"
+    output: role_kpi_map[]
+
+  - id: 3
+    name: capability_matching
+    desc: 我们有什么产品/能力？（能力匹配）
+    input: [demands, role_kpi_map]
+    output: capability_matches[]
+
+  - id: 4
+    name: value_proposition_generation
+    desc: 给每个岗位创造什么价值？（价值主张卡）
+    method: 8��诀 × 角色
+    template:
+      - role: 养殖总监/生产总监
+        kpi: [PSY, OEE, 料肉比, 产能利用率]
+        value: "PSY+12% / OEE+15% / 成本-10%"
+      - role: 财务总监
+        kpi: [报表周期, 资金周转率]
+        value: "报表周期-50% / 资金周转+30%"
+      - role: 信息总监
+        kpi: [系统集成, IT运维成本]
+        value: "API打通 / 运维-40%"
+    output: value_propositions[]
+
+  - id: 5
+    name: value_quantification
+    desc: 价值如何量化？（数据驱动 ROI）
+    method: 价值量化公式库
+    formulas:
+      - name: 人效提升收益
+        formula: "年收益 = 年营收 × 人效提升比例 × 销售占比"
+      - name: 费用节约收益
+        formula: "年收益 = 年营收 × 费用率 × 下降比例"
+      - name: 客户流失减少收益
+        formula: "年收益 = 活跃客户数 × 流失率 × 平均客单价 × 挽回率 × 留存提升"
+      - name: DSO缩短现金流收益
+        formula: "年收益 = (原DSO-新DSO)/365 × 年营收 × 资金成本率"
+      - name: 服务效率提升收益
+        formula: "年收益 = (原处理时间-新处理时间)/原处理时间 × 服务人员成本"
+    moa_enabled: true          # ROI 测算用 MoA 交叉验证
+    output: roi_analysis
+
+  - id: 6
+    name: deliverable
+    desc: 价值营销方案 + ROI 分析
+    output: value_marketing_package
+
+# 交付物
+deliverables:
+  - value_marketing_plan      # 价值营销方案
+  - value_proposition_cards   # 价值主张卡（分角色）
+  - roi_analysis              # ROI 分析（3年测算 + 回本周期）
+
+degradation:
+  - condition: "CRM 不可达"
+    action: 通用 KPI 模板 + 用户手动提供指标
+  - condition: "methodology KB 缺失"
+    action: Prompt 内联公式库（精度下降）
+
+eval_cases:
+  - id: ec-vm-001
+    input: "舜宇光学价值营销方案"
+    expected: 分角色价值主张卡 + 3年ROI + 回本周期
+  - id: ec-vm-002
+    input: "欧达光电 ROI 测算"
+    expected: 5公式选型 + 量化结果 + MoA交叉验证
+
+evolution:
+  last_modified: 2026-07-19
+  last_event: initial_creation
+  eval_status: pending
+  parent_version: null

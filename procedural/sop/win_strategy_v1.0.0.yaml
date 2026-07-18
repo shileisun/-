@@ -1,0 +1,159 @@
+# 策略赢单专家 SOP v1.0.0
+# 程序记忆 · 对应量子蜂群 §09 策略赢单专家
+# 实体化自 SKILL.md v13.0：8字诀 + 业务结果四阶段 + 信任五环 + 决策角色 + WPV
+---
+version: 1.0.0
+expert: 策略赢单专家
+expert_version: 13.0.0
+pipeline: LTC
+pipeline_phase: 6
+trigger:
+  keywords: ["赢单策略", "赢率", "赢单概率", "项目形势", "决策链", "舜宇POC"]
+  intent: win_strategy
+
+# 编排信息
+orchestration:
+  topology: mesh              # 赢单策略复杂，用 Mesh（多专家辩论）
+  model_tier: frontier        # 强推理
+  context_isolation: true
+  budget_tokens: 60000
+  moa_enabled: true           # 关键决策启用 MoA（v17 §2.6）
+
+# 核心方法论（从 SKILL.md 提取，可被自进化改写）
+methodology:
+  soul: 8字诀                  # 目标→障碍→能力→价值（赢单策略灵魂）
+  stages: 业务结果四阶段        # 不清→常理→明确→共识
+  trust: 信任五环              # 拜访准备→了解概念→证实能力→获得承诺→拜访复盘
+  roles: [EB, T-CB, T-AB, UB, EK]  # 经济购买者/技术决策/技术影响/用户/教练
+
+# SOP 步骤
+steps:
+  - id: 1
+    name: situation_assessment
+    desc: 项目形势研判（8字诀锚定方向）
+    method: 8字诀
+    framework:
+      - 目标: 客户年度业务目标是什么？
+      - 障碍: 实现目标的障碍是什么？
+      - 能力: 我们的能力如何消除障碍？
+      - 价值: 价值如何量化？
+    output: situation_assessment
+
+  - id: 2
+    name: decision_role_identification
+    desc: 决策角色识别（EB/T-CB/T-AB/UB/EK）
+    method: 决策链分析
+    roles:
+      - id: EB
+        name: 经济购买者
+        concern: 战略方向/ROI/风险
+        influence: high
+      - id: T-CB
+        name: 技术决策者
+        concern: 技术方案/集成/安全
+        influence: high
+      - id: T-AB
+        name: 技术影响者
+        concern: 评估标准/对标
+        influence: medium
+      - id: UB
+        name: 用户
+        concern: 易用性/效率
+        influence: low
+      - id: EK
+        name: 教练
+        concern: 帮你赢单
+        influence: critical
+    mcp_calls:
+      - server: fxiaoke-crm
+        tool: crm_contact_query
+        degradation: "用户手动提供决策链"
+    output: decision_roles[]
+
+  - id: 3
+    name: stage_diagnosis
+    desc: 业务结果四阶段诊断（不清/常理/明确/共识）
+    method: 业务结果四阶段
+    diagnosis:
+      - stage: 不清
+        action: 提问唤醒（SPIN）
+      - stage: 常理
+        action: 量化澄清
+      - stage: 明确
+        action: 方案共创
+      - stage: 共识
+        action: 建立同盟推动决策
+    output: stage_status
+
+  - id: 4
+    name: win_factor_analysis
+    desc: 赢单因素分析 + 赢率预测
+    method: WPV（Win-Plan-Value）
+    factors:
+      - 客户匹配度
+      - 需求紧迫度
+      - 关系深度
+      - 方案差异化
+      - 竞争位置
+    mcp_calls:
+      - server: fxiaoke-crm
+        tool: crm_opportunity_score
+        degradation: "离线评分（methodology KB）"
+    moa_enabled: true          # 赢率预测用 MoA 多模型综合
+    output: win_rate + factors
+
+  - id: 5
+    name: role_based_strategy
+    desc: 分角色销售策略制定
+    method: 8字诀 × 决策角色
+    strategies:
+      - role: EB
+        strategy: 高层拜访PPT（目标→障碍→能力→价值）
+      - role: T-CB
+        strategy: 技术方案对标（差异化+集成方案）
+      - role: T-AB
+        strategy: 评估标准影响（POC 指标设计）
+      - role: UB
+        strategy: 效率价值证明（场景演示）
+      - role: EK
+        strategy: 教练赋能（内部倡导者）
+    output: role_strategies[]
+
+  - id: 6
+    name: playbook_generation
+    desc: 场景化 Playbook 生成
+    output: scenario_playbook
+
+  - id: 7
+    name: deliverable
+    desc: 赢单策略 + 拜访计划 + 场景Playbook + 量化评分
+    output: win_strategy_package
+
+# 交付物
+deliverables:
+  - win_strategy               # 赢单策略（含8字诀+四阶段+WPV）
+  - visit_plan                 # 分角色拜访计划
+  - scenario_playbook          # 场景化 Playbook
+  - quantitative_score         # 赢率 + 赢单因素评分
+
+# 降级
+degradation:
+  - condition: "CRM 不可达"
+    action: 离线评分 + 用户手动提供决策链
+  - condition: "methodology KB 缺失"
+    action: Prompt 内联 8字诀/四阶段规则（精度下降）
+
+# 评测用例
+eval_cases:
+  - id: ec-ws-001
+    input: "舜宇光学 POC 赢单策略"
+    expected: 8字诀锚定 + 5角色决策链 + 四阶段诊断 + WPV赢率 + 分角色策略
+  - id: ec-ws-002
+    input: "华东医药 PRM 商机赢率评估"
+    expected: WPV 评分 + 赢单因素 + 改进建议
+
+evolution:
+  last_modified: 2026-07-19
+  last_event: initial_creation
+  eval_status: pending
+  parent_version: null

@@ -1,0 +1,138 @@
+# 客户洞察专家 SOP v1.0.0
+# 程序记忆 · 对应量子蜂群 §03 客户洞察360度引擎
+# 实体化自 SKILL.md v3.1：三域语义 + 洞察三步法 + 360度模板
+---
+version: 1.0.0
+expert: 客户洞察专家
+expert_version: 4.0.0
+pipeline: MTL
+pipeline_phase: 2
+trigger:
+  keywords: ["客户洞察", "读懂XX公司", "XX公司怎么样", "360度"]
+  intent: customer_insight
+
+orchestration:
+  topology: chain
+  model_tier: frontier
+  context_isolation: true
+  budget_tokens: 80000
+  moa_enabled: true           # 深度分析用 MoA
+
+# 核心方法论
+methodology:
+  core: 三域语义体系          # 业务域 + 行业域 + 租户域
+  insight_method: 洞察三步法  # 岗位→目标→障碍
+  template: 360度8维度        # 基本信息/愿景/业务特征/KPI/决策链/场景/商机/行动
+  principle: 问题因岗因人而存在
+
+steps:
+  - id: 0
+    name: load_semantic_packages
+    desc: 加载三域语义包（业务域+行业域+租户域）
+    mcp_calls:
+      - server: semantic-business
+        degradation: "通用业务域兜底"
+      - server: semantic-industry
+        degradation: "通用行业 KPI 兜底"
+      - server: semantic-tenant
+        degradation: "跳过权限校验"
+    output: semantic_context
+
+  - id: 1
+    name: business_info_retrieval
+    desc: 工商信息检索 + 基础数据
+    mcp_calls:
+      - server: qichacha
+        tool: company_info_query
+        degradation: websearch
+    output: business_info
+
+  - id: 2
+    name: vision_strategy
+    desc: 使命愿景与战略方向解读
+    input: [business_info]
+    output: vision_strategy
+
+  - id: 3
+    name: business_kpi_analysis
+    desc: 业务特征分析 + 关键 KPI 提取（行业自适应）
+    method: 洞察三步法
+    framework:
+      - 锁定岗位: 痛点归属于谁的 KPI？（EB/T-CB/UB/EK）
+      - 目标: 该岗位的年度目标是什么？
+      - 障碍: 实现目标的障碍是什么？
+    input: [business_info, semantic_context]
+    output: business_kpis + role_pain_points
+
+  - id: 4
+    name: trend_analysis
+    desc: 发展趋势与产业环境研判
+    input: [business_info]
+    output: trend_analysis
+
+  - id: 5
+    name: scenario_insight
+    desc: 内部业务场景洞察（核心流程+现有IT系统+痛点断点）
+    input: [business_info, business_kpis]
+    output: scenario_insight
+
+  - id: 6
+    name: decision_chain_mapping
+    desc: 决策链分析（EB/T-CB/T-AB/UB/EK 角色识别 + 影响力排序）
+    roles: [EB, T-CB, T-AB, UB, EK]
+    input: [business_info]
+    output: decision_chain[]
+
+  - id: 7
+    name: opportunity_identification
+    desc: 潜在商机识别（5大领域 + 优先级排序）
+    mcp_calls:
+      - server: fxiaoke-crm
+        tool: crm_opportunity_score
+        degradation: "离线评分"
+    graphrag_integration:
+      query: "同行已签约什么？选型路径？"
+      max_hops: 3
+      fallback: "通用商机推断"
+    input: [business_kpis, scenario_insight]
+    output: opportunities[]
+
+  - id: 8
+    name: visit_strategy
+    desc: 拜访策略建议（关键人接触路径 + 价值主张）
+    input: [decision_chain, opportunities]
+    output: visit_strategy
+
+  - id: 9
+    name: deliverable
+    desc: 客户洞察 360 度报告
+    output: customer_insight_360_report
+
+# 交付物
+deliverables:
+  - customer_insight_360_report   # 8 维度全景
+  - opportunity_list              # 商机清单（优先级）
+  - decision_chain                # 决策链
+  - visit_plan                    # 拜访计划
+
+degradation:
+  - condition: "企查查不可达"
+    action: WebSearch + 上市年报
+  - condition: "语义层缺失"
+    action: 通用 KPI 兜底
+  - condition: "CRM 不可达"
+    action: 离线评分
+
+eval_cases:
+  - id: ec-ci-001
+    input: "欧达光电客户洞察"
+    expected: 8维度报告 + 商机清单 + 决策链 + 拜访策略
+  - id: ec-ci-002
+    input: "舜宇光学360度洞察"
+    expected: MATR评分 + GraphRAG多跳 + 决策链EB/T-CB/EK
+
+evolution:
+  last_modified: 2026-07-19
+  last_event: initial_creation
+  eval_status: pending
+  parent_version: null
