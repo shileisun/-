@@ -1,0 +1,82 @@
+# MoA 权重配置 v1.0.0
+# 程序记忆 · 对应 v17 §2.6 Mixture-of-Agents 综合器
+# 权重由 evaluation_runner 历史表现驱动，eval_regression 触发调权
+---
+version: 1.0.0
+component: moa_synthesizer
+trigger:
+  - task_type: complex_decision    # 赢单策略/价值量化/客户洞察深度分析
+  - task_type: critical_deliverable # 方案/报价/POC 策略
+
+# 模型候选池（综合模式 = Synthesis）
+candidates:
+  - id: model_A_frontier
+    role: strong_reasoning
+    model_tier: frontier
+    default_weight: 0.45
+  - id: model_B_smart
+    role: alternative_vendor       # 不同厂商降低同源偏见
+    model_tier: smart
+    default_weight: 0.30
+  - id: model_C_critic
+    role: critic                    # 深度思考引擎/苏格拉底拷问引擎
+    model_tier: frontier
+    default_weight: 0.25
+
+# 当前生效权重（可被自进化改写）
+active_weights:
+  model_A_frontier: 0.45
+  model_B_smart: 0.30
+  model_C_critic: 0.25
+
+# 门控综合流程
+synthesis_flow:
+  - id: 1
+    name: parallel_generation
+    desc: 2-3 个模型独立生成候选方案
+  - id: 2
+    name: gating_synthesis
+    desc: 门控网络加权聚合 + 识别分歧点
+    dispute_handling: trigger_debate  # 分歧→触发辩论（v14.0 Multi-Agent Debate）
+  - id: 3
+    name: quality_gate
+    desc: 评测集运行器评分
+    threshold:
+      pass: 8.5
+      retry: 6.0    # 6.0-8.4 加一轮
+      fail: 6.0     # <6.0 降级单模型最优
+
+# 成本守门
+cost_guardrail:
+  max_total_tokens_multiplier: 3.5   # MoA 总 Token ≤ 单模型 × 3.5
+  on_exceed: degrade_to_single_best
+
+# 权重更新触发器（与自进化事件总线咬合）
+weight_update_triggers:
+  - event: eval_regression
+    action: 降低回归模型权重 + 重分配
+  - event: periodic_review
+    action: 按评测趋势重新分配
+  - event: user_explicit_feedback
+    action: 奖励信号汇聚后微调
+
+# 降级路径
+degradation:
+  - condition: "MoA 总 Token 超限"
+    action: degrade_to_single_best  # 降级为单模型最优
+  - condition: "评测持续未通过"
+    action: 回退到 selection 模式 + 告警
+
+eval_cases:
+  - id: ec-moa-001
+    input: "舜宇光学 POC 赢单策略"
+    expected: 综合方案 + 推理链 + 分歧标注，质量分 ≥8.5
+  - id: ec-moa-002
+    input: "欧达光电价值量化"
+    expected: ROI 测算 + 多模型共识，偏差 <15%
+
+evolution:
+  last_modified: 2026-07-19
+  last_event: initial_creation
+  eval_status: pending
+  parent_version: null

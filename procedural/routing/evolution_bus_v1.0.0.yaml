@@ -1,0 +1,103 @@
+# 自进化事件总线配置 v1.0.0
+# 程序记忆 · 对应 v17 §2.8 自进化事件总线
+# 定义 6 类触发事件、改写目标、评测门控规则
+---
+version: 1.0.0
+component: self_evolution_bus
+
+# 事件注册表
+events:
+  - id: output_quality_low
+    trigger: "质量自查 < 6.0（规程3）"
+    what: prompts
+    target: procedural/prompts/
+    action: 自审修正 + 提炼错误模式
+    semver_bump: patch
+
+  - id: user_explicit_feedback
+    trigger: '用户"这个对/不对"'
+    what: sop
+    target: procedural/sop/
+    action: 奖励信号汇聚 + 模式强化/抑制
+    semver_bump: patch
+
+  - id: user_correction
+    trigger: 用户亲手改输出
+    what: sop
+    target: procedural/sop/
+    action: 差异分析 → 热加载 SOP
+    semver_bump: patch
+
+  - id: eval_regression
+    trigger: 评测集运行器失败率↑
+    what: rollback
+    target: procedural/ (回滚到上版)
+    action: 自动回滚 + 根因记录
+    semver_bump: none  # 回滚不升号
+
+  - id: periodic_review
+    trigger: 每周/每月
+    what: routing
+    target: procedural/routing/
+    action: 质量趋势比对 + 种群 PK
+    semver_bump: minor
+
+  - id: new_case_deposit
+    trigger: 行业案例沉淀
+    what: sop
+    target: procedural/sop/
+    action: 经验图谱加节点 + SOP 补例
+    semver_bump: patch
+
+# 总线协议
+bus_protocol:
+  - id: 1
+    name: event_intake
+    desc: 事件总线接收 + 分类（What：改 Prompt/SOP/路由/记忆？）
+  - id: 2
+    name: root_cause_analysis
+    desc: 哪个专家？哪个步骤？为什么偏？
+  - id: 3
+    name: draft_rewrite
+    desc: 生成候选新版本 SOP_v<候选>.yaml（不覆盖线上）
+  - id: 4
+    name: eval_gate
+    desc: evaluation_runner 跑对应评测用例
+    branches:
+      - condition: passed
+        action: promote  # semver +1，归档旧版
+      - condition: failed
+        action: discard  # 丢弃候选 + 失败模式入语义记忆
+  - id: 5
+    name: cache_invalidation
+    desc: 程序记忆改写 → 上下文工程 Caching 失效 → 重新缓存
+  - id: 6
+    name: observability
+    desc: AgentOps 记录进化 trace（who/what/when/result）
+
+# 评测门控硬性规则
+eval_gate_rules:
+  - rule: 任何程序记忆改写必须先过评测集
+    enforcement: mandatory
+  - rule: 改写即升 semver
+    enforcement: mandatory
+    archive_old: true
+  - rule: 回归即回滚
+    enforcement: automatic
+    trigger: eval_regression
+  - rule: 进化可观测
+    enforcement: mandatory
+    output: agentops_trace
+
+# 与 P1/P2 组件咬合
+integration:
+  procedural_memory: "唯一可写落点（§18.3 第四类）"
+  mcp_server_cards: "进化涉及换工具/换降级路径 → 改 routing/ → 重新发现 MCP Server"
+  context_caching: "程序记忆改写 → 缓存失效 → 重新缓存"
+  moa: "eval_regression → 自动调整 MoA 权重"
+
+evolution:
+  last_modified: 2026-07-19
+  last_event: initial_creation
+  eval_status: pending
+  parent_version: null

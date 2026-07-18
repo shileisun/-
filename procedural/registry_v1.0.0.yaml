@@ -1,0 +1,85 @@
+# 程序记忆注册表 v1.0.0
+# 程序记忆 · 对应 v17 §18.3 第四类
+# 索引所有程序记忆文件、版本、评测状态、自进化历史
+---
+version: 1.0.0
+component: procedural_memory_registry
+last_updated: 2026-07-19
+
+# 注册表
+entries:
+  # ── SOP（专家怎么做）──
+  - id: retrieval_planner
+    type: sop
+    file: procedural/sop/retrieval_planner_v1.0.0.yaml
+    version: 1.0.0
+    expert: [客户洞察专家, 行业洞察专家]
+    eval_status: pending
+    last_event: initial_creation
+
+  # ── workflows（工作流模板）──
+  # 待实体化：行业评估流/客户洞察流/线索开发流/销售日常流
+
+  # ── prompts（提示词模板）──
+  # 待实体化：提问公式/自检清单/各专家提问模板
+
+  # ── routing（路由策略）──
+  - id: moa_weights
+    type: routing
+    file: procedural/routing/moa_weights_v1.0.0.yaml
+    version: 1.0.0
+    expert: [alliance-commander]
+    eval_status: pending
+    last_event: initial_creation
+
+  - id: evolution_bus
+    type: routing
+    file: procedural/routing/evolution_bus_v1.0.0.yaml
+    version: 1.0.0
+    expert: [量子蜂群]
+    eval_status: pending
+    last_event: initial_creation
+
+  - id: degradation_policy
+    type: routing
+    file: procedural/routing/degradation_policy_v1.0.0.yaml
+    version: 1.0.0
+    expert: [量子蜂群, alliance-commander]
+    eval_status: pending
+    last_event: initial_creation
+
+# 版本管理规则
+versioning_rules:
+  - rule: semver 严格（major.minor.patch）
+  - rule: 每次自进化改写必须升号
+  - rule: 旧版归档到 procedural/archive/
+  - rule: 回滚时恢复 archive 中最近通过评测的版本
+
+# 评测门控状态机
+eval_state_machine:
+  - state: pending
+    desc: 新建/改写后待评测
+  - state: passed
+    desc: 评测通过，可固化
+  - state: failed
+    desc: 评测未通过，丢弃候选
+  - state: rolled_back
+    desc: 回归后回滚到上版
+
+# 待实体化清单（后续迭代）
+pending_entity:
+  - workflows/industry_assessment_v1.0.0.yaml    # 行业评估流
+  - workflows/customer_insight_v1.0.0.yaml        # 客户洞察流
+  - workflows/lead_development_v1.0.0.yaml         # 线索开发流
+  - workflows/sales_daily_v1.0.0.yaml              # 销售日常流
+  - prompts/question_formula_v1.0.0.yaml           # 提问公式（屠龙术）
+  - prompts/self_check_list_v1.0.0.yaml            # 自检清单
+  - sop/win_strategy_v1.0.0.yaml                   # 策略赢单专家 SOP
+  - sop/customer_insight_v1.0.0.yaml               # 客户洞察专家 SOP
+  - sop/value_marketing_v1.0.0.yaml                # 价值营销专家 SOP
+
+evolution:
+  last_modified: 2026-07-19
+  last_event: initial_creation
+  eval_status: pending
+  parent_version: null

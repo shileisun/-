@@ -1,0 +1,85 @@
+# 降级策略配置 v1.0.0
+# 程序记忆 · 对应 v17 §3.4 外部依赖与降级策略
+# 7 个环境变量 + 降级路径定义
+---
+version: 1.0.0
+component: degradation_manager
+
+# 环境变量注册表
+environment_variables:
+  - name: SKILLS_DIR
+    default_local: "~/.workbuddy/skills"
+    default_sandbox: "/root/.codebuddy/skills"
+    purpose: skill 根目录
+    on_missing: "用 os.path.dirname(__file__) 自动定位"
+
+  - name: WORKBUDDY_WORKSPACE
+    default: "~/WorkBuddy"
+    purpose: 工作输出目录
+    on_missing: "降级为系统临时目录"
+
+  - name: METHODOLOGY_KB
+    default: "${SKILLS_DIR}/methodology/methodology_knowledge_base.json"
+    purpose: 方法论编译知识库
+    on_missing: "降级为 Prompt 内联规则（读 methodology_references 描述版）"
+    precision_impact: 量化精度下降，不阻塞
+
+  - name: FABM_DB
+    default: "${WORKBUDDY_WORKSPACE}/alliance-system/data/alliance.db"
+    purpose: FABM 客户数据库
+    on_missing: "降级为用户手动输入客户数据模式"
+
+  - name: CRM_MCP_ENDPOINT
+    default: null
+    purpose: 纷享销客 CRM MCP Server
+    on_missing: "降级为离线分析模式，CRM 查询类任务提示用户手动提供"
+
+  - name: QICHACHA_MCP_ENDPOINT
+    default: null
+    purpose: 企查查 MCP Server
+    on_missing: "降级为 WebSearch 检索工商信息模式"
+
+  - name: IMA_KB_ENDPOINT
+    default: null
+    purpose: 腾讯 IMA 知识库
+    on_missing: "降级为本地方法论 SKILL.md 模式"
+
+# 降级执行规程
+degradation_protocol:
+  - id: 1
+    name: startup_probe
+    desc: 启动时探测环境变量 → 记录哪些外部依赖可用/缺失
+    output: dependency_status{}
+
+  - id: 2
+    name: pre_task_check
+    desc: 任务执行前检查所需依赖是否可用
+    branches:
+      - condition: available
+        action: full_path  # 走完整路径（高精度）
+      - condition: missing
+        action: degraded_path  # 走降级路径 + 输出末尾标注降级
+
+  - id: 3
+    name: no_hard_fail
+    desc: 禁止因外部依赖缺失而直接报错终止
+    rationale: 销售场景必须给结果
+
+# 降级标注格式
+degradation_notice:
+  format: '⚠️ 本次降级运行，{dependency} 数据为离线推断'
+  examples:
+    - '⚠️ 本次降级运行，CRM 数据为离线推断'
+    - '⚠️ 本次降级运行，企查查数据为 WebSearch 检索结果'
+
+# 与 MCP Server Cards 咬合
+mcp_integration:
+  discovery: "启动时扫描 ${SKILLS_DIR}/.well-known/mcp 聚合 MCP Server 注册表"
+  health_check: "每个 Server Card 校验 endpoint_env / auth_env 是否就绪"
+  classification: "available（可用）/ degraded（缺失→走降级路径）"
+
+evolution:
+  last_modified: 2026-07-19
+  last_event: initial_creation
+  eval_status: pending
+  parent_version: null

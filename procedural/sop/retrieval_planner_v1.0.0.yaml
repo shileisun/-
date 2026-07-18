@@ -1,0 +1,90 @@
+# 检索规划器 SOP v1.0.0
+# 程序记忆 · 对应 v17 §13·A Agentic RAG + GraphRAG
+# 可被自进化事件总线改写（eval_regression 触发回滚，new_case_deposit 触发升 patch）
+---
+version: 1.0.0
+expert:
+  - 客户洞察专家
+  - 行业洞察专家
+trigger: 需要跨客户/跨行业/跨方法论关联分析时
+intent_types:
+  - similar_customer      # "和三花类似的客户"
+  - historical_conclusion # "之前汽配有什么结论"
+  - methodology_case      # "信任五环用过哪些"
+  - selection_path        # "谁已签约CRM、选型路径是什么"
+
+steps:
+  - id: 1
+    name: intent_classification
+    desc: 识别检索意图（相似客户/历史结论/方法论案例/选型路径）
+    output: intent_type
+
+  - id: 2
+    name: subtask_decomposition
+    desc: 拆解为 1-N 个子问题
+    output: subquestions[]
+
+  - id: 3
+    name: source_planning
+    desc: 每个子问题指定数据源
+    sources:
+      - fabm-db           # FABM 客户数据库（MCP Server）
+      - experience_graph  # 经验图谱（GraphRAG 多跳）
+      - case_library      # 案例库
+      - methodology_kb    # methodology_knowledge_base.json
+      - websearch         # 降级：WebSearch
+    output: source_plan[]
+
+  - id: 4
+    name: multi_hop_execution
+    desc: 沿图谱边遍历（最多 3 跳防爆炸）
+    max_hops: 3
+    graph_edges:
+      - 客户→属于→行业
+      - 客户→同行→客户
+      - 客户→已签约→CRM厂商
+      - 客户→用过→方法论
+      - 方法论→案例引用→案例
+    output: hop_results[]
+
+  - id: 5
+    name: reflection
+    desc: 召回够吗？缺什么？是否补查？
+    branches:
+      - condition: "召回充分"
+        action: proceed_to_synthesis
+      - condition: "召回不足"
+        action: trigger_tool_call  # 企查查 MCP / WebSearch 降级
+        then: re_retrieve
+
+  - id: 6
+    name: synthesis
+    desc: 带推理链整合输出（非堆砌资料）
+    output: insight_with_reasoning_chain
+
+degradation:
+  - condition: "经验图谱缺失"
+    action: 降级为向量召回 + WebSearch 补充
+    note: 精度下降，标注"离线推断"
+  - condition: "FABM 缺失"
+    action: 用户手动输入客户清单
+  - condition: "企查查 MCP 不可达"
+    action: WebSearch 检索工商信息
+
+eval_cases:
+  - id: ec-001
+    input: "和三花类似的客户"
+    expected: 返回宁波拓普/爱柯迪等 + 选型路径
+  - id: ec-002
+    input: "汽配行业信任五环用过哪些"
+    expected: 返回案例 + 方法论引用链
+  - id: ec-003
+    input: "宁波汽配龙头里谁已签约CRM"
+    expected: 多跳结果 [客户]→[已签约]→[CRM厂商] + 选型路径
+
+# 自进化元数据
+evolution:
+  last_modified: 2026-07-19
+  last_event: initial_creation
+  eval_status: pending  # pending | passed | failed
+  parent_version: null
