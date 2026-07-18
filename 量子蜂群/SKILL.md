@@ -1392,6 +1392,46 @@ AI：10秒后 → 生成河南市场行业分布报表（Excel/PDF）
 | **传输层** | JSON-RPC 2.0 over HTTP/SSE | 专家间A2A通信 |
 ```
 
+## 12·A 接入层 MCP 化（v17.0 P1 · 对应 §2.4）
+
+> 来源：MCP 2026 Roadmap（2026-03）：传输可扩展、Agent 间通信、治理成熟、**MCP Server Cards**（通过 `.well-known` URL 暴露结构化服务能力，便于发现）、远程 MCP。
+> 核心：把接入层外部系统从「隐式硬编码」升级为「声明式、可发现、可降级」的 **MCP Server**。
+
+### 接入层 MCP Server 注册表
+
+每个外部能力封装为 MCP Server，并发布 **Server Card**（声明能力 / 鉴权 / 输入输出 schema）。中枢通过 Server Card 发现能力，缺失时按 v17 降级策略运行（与 P1 地基的「外部依赖与降级策略」咬合）。
+
+| MCP Server | 能力（tools） | 传输 | 鉴权（环境变量） | 降级（缺失时） |
+|---|---|---|---|---|
+| `fxiaoke-crm` | 客户/商机/跟进 CRUD、指标查询 | 远程 MCP (SSE) | `CRM_MCP_ENDPOINT` + `CRM_TOKEN` | 离线分析（用户手动提供数据） |
+| `qichacha` | 工商信息检索、股权穿透 | 远程 MCP | `QICHACHA_MCP_ENDPOINT` + `QICHACHA_KEY` | WebSearch 检索工商信息 |
+| `tencent-docs` | 文档读写、报表落盘 | 远程 MCP | `TENCENT_DOCS_ENDPOINT` | 本地文件系统落盘 |
+| `tencent-meeting` | 会议纪要、转录 | 远程 MCP | `TENCENT_MEETING_ENDPOINT` | 人工纪要整理 |
+| `fabm-db` | FABM 客户数据库查询 | 本地 MCP (SQLite) | `FABM_DB` | 用户手动输入客户数据 |
+| `semantic-*` | 5 语义层（business/auto-parts/manufacturing/medical/tenant） | 本地 MCP（待建） | `${SKILLS_DIR}/semantic/*` | 通用方法论兜底（精确查询退化为通用推理） |
+
+### Server Card 示例（fxiaoke-crm）
+
+```json
+{
+  "mcp_version": "1.0",
+  "server_name": "fxiaoke-crm",
+  "display_name": "纷享销客 CRM",
+  "description": "量子蜂群接入纷享销客 CRM 的 MCP Server，提供客户/商机/跟进读写与指标查询",
+  "transport": "remote-sse",
+  "endpoint_env": "CRM_MCP_ENDPOINT",
+  "auth_env": "CRM_TOKEN",
+  "capabilities": {
+    "tools": ["crm_account_query", "crm_opportunity_score", "crm_followup_list", "crm_indicator_query"],
+    "resources": ["crm_field_schema"]
+  },
+  "input_schema_ref": "${SKILLS_DIR}/alliance-commander/references/crm_tools.schema.json",
+  "degradation": "offline_analysis"
+}
+```
+
+> **发现机制**：每个 Server Card 存于 `${SKILLS_DIR}/<skill>/mcp/<server_name>.card.json`，中枢启动时扫描 `.well-known/mcp` 目录聚合为「MCP Server 注册表」。这是 v17 §2.4 接入层标准化的落地，与 §2.9 安全网关（注入防御/沙箱）、P1 地基的降级策略三位一体。
+
 ### Know-Why：新增工作流引擎层？
 
 ```

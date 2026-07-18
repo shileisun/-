@@ -286,6 +286,24 @@ Mesh：覆盖~10%场景（审计/辩论）
 
 ---
 
+### MCP Server 发现（v17.0 新增 · 对应 v17 §2.4）
+
+> A2A 负责 **agent↔agent**，MCP 负责 **agent→tool/data**，二者严格分层、不复用。
+
+**中枢不直接硬编码工具地址**，而是启动时扫描 `${SKILLS_DIR}/.well-known/mcp` 聚合「MCP Server 注册表」：
+
+```
+1. 扫描各 skill 的 mcp/*.card.json → 加载 Server Card
+2. 校验 endpoint_env / auth_env 是否就绪（环境变量已设置？）
+3. 分类：available（可用）/ degraded（缺失→走降级路径）
+4. 专家调用工具时 → 查注册表 → 命中 MCP Server → 走 MCP 协议
+5. Server 不可达 → 触发 v17 降级策略（见「外部依赖与降级策略」）
+```
+
+**与降级策略咬合**：MCP Server 缺失/不可达时，不报错终止，而是降级（如 CRM 走离线分析、企查查走 WebSearch）。这是 P1 地基「外部依赖与降级策略」在协议层的具体落地。
+
+---
+
 ## 四、Task Ledger + Progress Ledger（双记账系统）
 
 ### 核心设计
