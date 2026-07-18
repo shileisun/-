@@ -1,0 +1,29 @@
+{
+  "agent_name": "销售管理专家",
+  "version": "12.0",
+  "input": {
+    "required": [
+      "account_plan",
+      "funnel_design"
+    ],
+    "optional": [
+      "kpi_context"
+    ]
+  },
+  "output": {
+    "writes": [
+      "kpi_dashboard"
+    ],
+    "format": "JSON"
+  },
+  "constraints": [
+    "必须在客户经营专家和漏斗构建专家执行完成后才能执行",
+    "不修改 account_plan 和 funnel_design",
+    "不写入 industry_insights 或 company_insights"
+  ],
+  "dependencies": [
+    "客户经营专家",
+    "漏斗构建专家"
+  ],
+  "parallel_safe": false
+}

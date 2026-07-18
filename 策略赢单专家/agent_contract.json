@@ -1,0 +1,29 @@
+{
+  "agent_name": "策略赢单专家",
+  "version": "12.0",
+  "input": {
+    "required": [
+      "opportunities",
+      "company_insights"
+    ],
+    "optional": [
+      "competitor_info"
+    ]
+  },
+  "output": {
+    "writes": [
+      "win_strategy"
+    ],
+    "format": "JSON"
+  },
+  "constraints": [
+    "必须在客户洞察专家和漏斗构建专家执行完成后才能执行",
+    "不修改 opportunities 和 company_insights",
+    "不写入 solution_design（那是解决方案专家的职责）"
+  ],
+  "dependencies": [
+    "客户洞察专家",
+    "漏斗构建专家"
+  ],
+  "parallel_safe": false
+}

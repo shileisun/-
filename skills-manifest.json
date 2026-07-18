@@ -1,0 +1,176 @@
+{
+  "repo": "quantum-swarm-skills",
+  "generated": "2026-07-18",
+  "count": 28,
+  "public_safe": true,
+  "skills": [
+    {
+      "dir": "alliance-commander",
+      "name": "alliance-commander",
+      "description": "🧠 量子蜂群·中枢调度系统 v14.0 联盟总指挥：混合动态拓扑引擎 + A2A协议 + Agent Card发现 + Task",
+      "size_kb": 30.0
+    },
+    {
+      "dir": "customer-management-advisor",
+      "name": "customer-management-advisor",
+      "description": "|",
+      "size_kb": 12725.4
+    },
+    {
+      "dir": "价值营销专家",
+      "name": "价值营销专家",
+      "description": "|",
+      "size_kb": 46.4
+    },
+    {
+      "dir": "伙伴业务诊断Agent",
+      "name": "partner-business-diagnosis",
+      "description": "|",
+      "size_kb": 139.3
+    },
+    {
+      "dir": "会议纪要需求整理",
+      "name": "会议纪要需求整理",
+      "description": "|",
+      "size_kb": 3.0
+    },
+    {
+      "dir": "信任拜访专家",
+      "name": "信任拜访专家",
+      "description": "|",
+      "size_kb": 1819.6
+    },
+    {
+      "dir": "商业分析报告生成器",
+      "name": "商业分析报告生成器",
+      "description": "|",
+      "size_kb": 3.4
+    },
+    {
+      "dir": "商机洞察专家",
+      "name": "商机洞察专家",
+      "description": ">",
+      "size_kb": 58.2
+    },
+    {
+      "dir": "客户档案专家",
+      "name": "customer-profile-advisor",
+      "description": "量子蜂群CRM客户档案数据库，支持客户信息/分层/区域/行业分布查询和销售跟进管理",
+      "size_kb": 251.9
+    },
+    {
+      "dir": "客户洞察专家",
+      "name": "客户洞察专家",
+      "description": "|",
+      "size_kb": 52.4
+    },
+    {
+      "dir": "客户经营专家",
+      "name": "客户经营专家",
+      "description": "客户经营专家 = 客户经营体系（五步工作坊法） + 三年战略经营计划 + 客户全生命周期经营（四阶段）+ 忠诚度管理 +",
+      "size_kb": 21.0
+    },
+    {
+      "dir": "客户经营计划专家",
+      "name": "客户经营计划专家",
+      "description": "为客户制定三年战略经营计划，嵌入战略客户经营体系方法论，帮助销售人员从\"卖产品\"转型到\"经营客户\"",
+      "size_kb": 17.6
+    },
+    {
+      "dir": "浙江渠道周报生成器",
+      "name": "浙江渠道周报生成器",
+      "description": "|",
+      "size_kb": 7.8
+    },
+    {
+      "dir": "深度思考引擎",
+      "name": "深度思考引擎",
+      "description": "量子蜂群·深度思考层 v1.0 融合苏格拉底提问圈、费曼学习法、第一性原理，构建三重深度思考能力。",
+      "size_kb": 12.8
+    },
+    {
+      "dir": "深度研究报告生成器",
+      "name": "深度研究报告生成器",
+      "description": "|",
+      "size_kb": 4.0
+    },
+    {
+      "dir": "漏斗构建专家",
+      "name": "漏斗构建专家",
+      "description": "|",
+      "size_kb": 9921.3
+    },
+    {
+      "dir": "生态伙伴专家",
+      "name": "生态伙伴专家",
+      "description": "|",
+      "size_kb": 3384.0
+    },
+    {
+      "dir": "策略赢单专家",
+      "name": "策略赢单专家",
+      "description": "|",
+      "size_kb": 134.4
+    },
+    {
+      "dir": "组织设计专家",
+      "name": "组织设计专家",
+      "description": "|",
+      "size_kb": 181.0
+    },
+    {
+      "dir": "苏格拉底拷问引擎",
+      "name": "苏格拉底拷问引擎",
+      "description": "量子蜂群·认知升维层 基于苏格拉底提问圈的六层拷问框架，对专家输出和用户认知进行深度质疑、",
+      "size_kb": 22.5
+    },
+    {
+      "dir": "行业洞察专家",
+      "name": "行业洞察专家",
+      "description": "深度研究一个行业（不是选行业），生成14000字行业洞察报告，包含行业背景/业务特征/客户数量/典型客户群体/市场容量/趋势机遇/客户关键需求/解决方案/决策偏好/SWOT/生态竞合/收入机会/行动建议",
+      "size_kb": 57.6
+    },
+    {
+      "dir": "认知专家",
+      "name": "认知专家",
+      "description": "石磊专属认知与决策辅助系统。以八字命理学为底层逻辑+系统思考为方法论+多元智慧为参照系，构建\"看清现状→体系化思考→辅助决策\"的完整能力。核心定位：不是算命，是认知系统；不是预测，是决策参考。独立于量子蜂群，专注服务石磊一人。终极目标：知天",
+      "size_kb": 477.1
+    },
+    {
+      "dir": "访前准备",
+      "name": "访前准备",
+      "description": "|",
+      "size_kb": 13.9
+    },
+    {
+      "dir": "量子蜂群",
+      "name": "量子蜂群",
+      "description": "AI原生销售智能系统 - v16.2：方法论编译引擎 + 评测集运行器 + 语义层架构升级（确定性规则从Prompt中解放，可编程可测试可审计）",
+      "size_kb": 127.9
+    },
+    {
+      "dir": "销售体系构建Agent",
+      "name": "销售体系构建Agent",
+      "description": ">",
+      "size_kb": 48.0
+    },
+    {
+      "dir": "销售助理",
+      "name": "销售助理Agent",
+      "description": "|",
+      "size_kb": 14.5
+    },
+    {
+      "dir": "销售日常驾驶舱",
+      "name": "sales-daily-dashboard",
+      "description": "|",
+      "size_kb": 8.3
+    },
+    {
+      "dir": "销售管理专家",
+      "name": "销售管理专家",
+      "description": "|",
+      "size_kb": 175.3
+    }
+  ]
+}

@@ -1,0 +1,29 @@
+{
+  "agent_name": "客户经营专家",
+  "version": "12.0",
+  "input": {
+    "required": [
+      "company_insights",
+      "solution_design"
+    ],
+    "optional": [
+      "account_context"
+    ]
+  },
+  "output": {
+    "writes": [
+      "account_plan"
+    ],
+    "format": "JSON"
+  },
+  "constraints": [
+    "必须在客户洞察专家和解决方案专家执行完成后才能执行",
+    "不修改 company_insights 和 solution_design",
+    "不写入 kpi_dashboard（那是销售管理专家的职责）"
+  ],
+  "dependencies": [
+    "客户洞察专家",
+    "解决方案专家"
+  ],
+  "parallel_safe": false
+}

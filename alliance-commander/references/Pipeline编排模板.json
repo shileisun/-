@@ -1,0 +1,100 @@
+{
+  "version": "3.0",
+  "updated": "2026-05-25",
+  "scenarios": {
+    "scenario_1_mtl_full": {
+      "name": "行业市场扫描",
+      "trigger_keywords": ["看看", "分析一下", "行业", "市场", "做XX行业", "市场进入"],
+      "pipeline_type": "MTL全链路",
+      "sequence": [
+        {"dept": "情报司", "advisor": "行业洞察专家", "output": "行业格局分析"},
+        {"dept": "情报司", "advisor": "客户洞察专家", "output": "目标客户洞察+商机清单"},
+        {"dept": "谋略司", "advisor": "营销规划专家", "output": "年度营销规划"},
+        {"dept": "谋略司", "advisor": "组织设计专家", "output": "组织架构建议"},
+        {"dept": "谋略司", "advisor": "漏斗构建专家", "output": "销售漏斗SOP"},
+        {"dept": "谋略司", "advisor": "生态伙伴专家", "output": "伙伴策略"},
+        {"dept": "执行司", "advisor": "信任拜访专家", "output": "拜访计划"},
+        {"dept": "执行司", "advisor": "策略赢单专家", "output": "赢单策略"},
+        {"dept": "执行司", "advisor": "解决方案专家", "output": "解决方案"},
+        {"dept": "经营司", "advisor": "客户经营专家", "output": "客户经营计划"},
+        {"dept": "监察司", "advisor": "销售管理专家", "output": "监控指标体系"}
+      ],
+      "data_injections": ["企查查", "WebSearch", "IMA知识库"],
+      "knowledge_refs": ["营销罗盘全书", "行业分析框架", "营销规划方法论"]
+    },
+    "scenario_2_customer_deep": {
+      "name": "客户深度分析",
+      "trigger_keywords": ["分析", "XX公司", "XX客户", "背调"],
+      "pipeline_type": "客户深潜",
+      "sequence": [
+        {"dept": "情报司", "advisor": "客户洞察专家", "output": "企业深度洞察"},
+        {"dept": "执行司", "advisor": "策略赢单专家", "output": "角色分析+赢单策略"},
+        {"dept": "执行司", "advisor": "信任拜访专家", "output": "拜访计划+话术"},
+        {"dept": "执行司", "advisor": "解决方案专家", "output": "差异化方案"},
+        {"dept": "经营司", "advisor": "客户经营专家", "output": "经营策略"}
+      ],
+      "data_injections": ["企查查工商", "企查查股权", "CRM历史数据"],
+      "knowledge_refs": ["1017洞察表", "策略九问", "信任五环"]
+    },
+    "scenario_3_opportunity_scan": {
+      "name": "商机盘点冲刺",
+      "trigger_keywords": ["商机", "机会", "突破口", "新客户"],
+      "pipeline_type": "商机扫描",
+      "sequence": [
+        {"dept": "情报司", "advisor": "行业洞察专家", "output": "行业机会点"},
+        {"dept": "情报司", "advisor": "客户洞察专家", "output": "商机清单"},
+        {"dept": "谋略司", "advisor": "漏斗构建专家", "output": "漏斗分析"},
+        {"dept": "执行司", "advisor": "策略赢单专家", "output": "赢单概率评估"},
+        {"dept": "监察司", "advisor": "销售管理专家", "output": "跟踪计划"}
+      ],
+      "data_injections": ["CRM商机数据", "WebSearch"],
+      "knowledge_refs": ["销售漏斗SOP", "5%改良模型"]
+    },
+    "scenario_4_win_battle": {
+      "name": "赢单作战指挥",
+      "trigger_keywords": ["怎么打", "怎么赢", "策略", "XX项目", "赢单"],
+      "pipeline_type": "LTC赢单",
+      "sequence": [
+        {"dept": "执行司", "advisor": "策略赢单专家", "output": "赢单策略"},
+        {"dept": "执行司", "advisor": "信任拜访专家", "output": "关键人拜访计划"},
+        {"dept": "执行司", "advisor": "解决方案专家", "output": "竞争方案"},
+        {"dept": "谋略司", "advisor": "漏斗构建专家", "output": "阶段监控"},
+        {"dept": "监察司", "advisor": "销售管理专家", "output": "过程督导"}
+      ],
+      "data_injections": ["CRM商机详情", "企查查竞争分析"],
+      "knowledge_refs": ["策略九问", "信任五环", "ToB底层逻辑"]
+    },
+    "scenario_5_account_plan": {
+      "name": "存量经营诊断",
+      "trigger_keywords": ["经营", "存量", "续约", "增购", "渗透", "一户一案"],
+      "pipeline_type": "经营回旋",
+      "sequence": [
+        {"dept": "经营司", "advisor": "客户经营专家", "output": "客户健康度诊断"},
+        {"dept": "情报司", "advisor": "客户洞察专家", "output": "增量商机"},
+        {"dept": "执行司", "advisor": "信任拜访专家", "output": "拜访计划"},
+        {"dept": "监察司", "advisor": "销售管理专家", "output": "跟踪指标"}
+      ],
+      "data_injections": ["CRM客户数据", "CRM合同数据"],
+      "knowledge_refs": ["客户金三角", "经营策略五步法", "营销罗盘第6章"]
+    },
+    "scenario_6_team_audit": {
+      "name": "团队效能督导",
+      "trigger_keywords": ["团队", "绩效", "KPI", "周报", "过程管理"],
+      "pipeline_type": "效能雷达",
+      "sequence": [
+        {"dept": "监察司", "advisor": "销售管理专家", "output": "过程指标分析"},
+        {"dept": "谋略司", "advisor": "组织设计专家", "output": "组织优化建议"},
+        {"dept": "谋略司", "advisor": "漏斗构建专家", "output": "漏斗健康度"}
+      ],
+      "data_injections": ["CRM绩效数据", "CRM拜访记录"],
+      "knowledge_refs": ["销售管理培训", "GMS模型"]
+    }
+  },
+  "dept_structure": {
+    "情报司": {"advisors": ["行业洞察专家", "客户洞察专家"], "role": "侦察·分析·洞察"},
+    "谋略司": {"advisors": ["营销规划专家", "组织设计专家", "漏斗构建专家", "生态伙伴专家"], "role": "规划·设计·构建"},
+    "执行司": {"advisors": ["信任拜访专家", "策略赢单专家", "解决方案专家"], "role": "拜访·赢单·方案"},
+    "经营司": {"advisors": ["客户经营专家"], "role": "客户经营·持续增长"},
+    "监察司": {"advisors": ["销售管理专家"], "role": "过程监控·行为归因"}
+  }
+}

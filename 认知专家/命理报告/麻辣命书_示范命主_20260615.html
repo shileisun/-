@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>麻辣命书 · 示范命主 · 庚午造</title>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:"Noto Serif SC","Source Han Serif","Songti SC","SimSun",serif;
+    background:#f4ede0;color:#1a1410;line-height:1.7}
+  .cover{min-height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;
+    background:linear-gradient(135deg,#1a1410 0%,#3a2818 50%,#1a1410 100%);
+    color:#d4af37;text-align:center;padding:40px 20px;border-bottom:6px double #8b0000}
+  .cover h1{font-size:64px;letter-spacing:24px;margin-bottom:20px;
+    text-shadow:0 0 30px rgba(212,175,55,.5);font-weight:300}
+  .cover .sub{font-size:18px;letter-spacing:8px;color:#a0823d;margin-bottom:60px}
+  .cover .name{font-size:36px;letter-spacing:12px;color:#8b0000;margin:30px 0;
+    text-shadow:0 0 20px rgba(139,0,0,.4)}
+  .cover .meta{font-size:14px;color:#8b7355;letter-spacing:3px;margin-top:40px;line-height:2}
+  .cover .stamp{display:inline-block;padding:8px 24px;border:2px solid #8b0000;color:#8b0000;
+    margin-top:30px;letter-spacing:6px;font-size:16px;transform:rotate(-3deg)}
+  .container{max-width:1100px;margin:0 auto;padding:40px 20px}
+  h2{font-size:32px;color:#8b0000;border-bottom:2px solid #8b0000;padding-bottom:12px;
+    margin:50px 0 25px;letter-spacing:6px;font-weight:400;position:relative}
+  h2::before{content:"";position:absolute;left:-20px;top:18px;width:8px;height:8px;
+    background:#d4af37;transform:rotate(45deg)}
+  h3{font-size:22px;color:#3a2818;margin:30px 0 15px;padding-left:15px;
+    border-left:4px solid #8b0000;letter-spacing:3px;font-weight:500}
+  h4{font-size:18px;color:#8b0000;margin:20px 0 10px;letter-spacing:2px}
+  p{margin:12px 0;text-indent:2em;font-size:16px}
+  .quote{padding:20px 30px;margin:20px 0;background:rgba(139,0,0,.05);
+    border-left:4px solid #8b0000;font-style:italic;color:#3a2818;
+    text-indent:0}
+  .note{padding:15px 20px;margin:15px 0;background:rgba(212,175,55,.1);
+    border:1px dashed #a0823d;font-size:14px;color:#5a4a30;text-indent:0;
+    border-radius:4px}
+  .warn{padding:15px 20px;margin:15px 0;background:rgba(139,0,0,.08);
+    border:1px solid #8b0000;color:#5a0a0a;text-indent:0;border-radius:4px}
+  table{width:100%;border-collapse:collapse;margin:20px 0;background:rgba(255,255,255,.5)}
+  th{background:#1a1410;color:#d4af37;padding:12px;font-weight:500;letter-spacing:3px;font-size:14px}
+  td{padding:12px;border-bottom:1px solid #d4c5a0;text-align:center;font-size:15px}
+  tr:nth-child(even) td{background:rgba(212,175,55,.05)}
+  .pillar{display:inline-block;width:120px;margin:10px 8px;text-align:center;vertical-align:top}
+  .pillar .label{font-size:13px;color:#8b7355;letter-spacing:4px;margin-bottom:8px}
+  .pillar .char{font-size:52px;color:#8b0000;font-weight:bold;display:block;line-height:1.2;
+    text-shadow:1px 1px 0 #d4af37}
+  .pillar .gan{display:font-size:18px;color:#5a4a30;margin-top:5px;font-family:monospace}
+  .pillars{text-align:center;margin:30px 0;padding:30px;
+    background:linear-gradient(135deg,rgba(212,175,55,.1),rgba(139,0,0,.05));
+    border-radius:8px}
+  .element-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin:20px 0}
+  .element{text-align:center;padding:15px 5px;border-radius:4px;color:#fff}
+  .el-木{background:#2d5016}.el-火{background:#8b0000}.el-土{background:#8b7355}
+  .el-金{background:#a0823d}.el-水{background:#1a3a5a}
+  .element .ename{font-size:14px;letter-spacing:4px;margin-bottom:5px}
+  .element .count{font-size:24px;font-weight:bold}
+  .element .detail{font-size:11px;margin-top:5px;opacity:.9}
+  .score{font-size:32px;color:#8b0000;font-weight:bold;text-align:center;
+    margin:20px 0;letter-spacing:8px}
+  .score-label{text-align:center;font-size:14px;color:#5a4a30;letter-spacing:4px}
+  .accordion{margin:15px 0;border:1px solid #d4c5a0;border-radius:4px;overflow:hidden}
+  .acc-head{background:linear-gradient(90deg,#3a2818,#5a4028);color:#d4af37;padding:15px 20px;
+    cursor:pointer;display:flex;justify-content:space-between;align-items:center;
+    font-size:18px;letter-spacing:3px}
+  .acc-head:hover{background:linear-gradient(90deg,#5a4028,#3a2818)}
+  .acc-head .arrow{transition:transform .3s}
+  .acc-body{padding:25px;background:rgba(244,237,224,.8);display:none}
+  .acc-body.open{display:block}
+  .acc-head.open .arrow{transform:rotate(180deg)}
+  .year-tag{display:inline-block;padding:4px 12px;background:#8b0000;color:#f4ede0;
+    border-radius:3px;margin-right:10px;font-size:14px;letter-spacing:2px}
+  .topic{display:inline-block;padding:3px 10px;background:rgba(212,175,55,.3);
+    border:1px solid #a0823d;margin:3px;border-radius:3px;font-size:12px;letter-spacing:1px}
+  .divider{height:2px;background:linear-gradient(90deg,transparent,#8b0000,transparent);
+    margin:40px 0}
+  .verdict{padding:20px 25px;margin:15px 0;border-radius:6px;border:1px solid}
+  .v-good{background:rgba(45,80,22,.1);border-color:#2d5016}
+  .v-bad{background:rgba(139,0,0,.08);border-color:#8b0000}
+  .v-mix{background:rgba(160,130,61,.1);border-color:#a0823d}
+  .verdict strong{display:block;font-size:16px;margin-bottom:8px;letter-spacing:2px}
+  .v-good strong{color:#2d5016}.v-bad strong{color:#8b0000}.v-mix strong{color:#8b7355}
+  .footer{text-align:center;padding:40px 20px;color:#8b7355;font-size:12px;
+    letter-spacing:3px;border-top:1px solid #d4c5a0;margin-top:60px}
+  .seal{text-align:right;margin-top:30px;color:#8b0000;font-size:18px;letter-spacing:6px;
+    transform:rotate(-2deg);font-weight:bold}
+</style>
+</head>
+<body>
+
+<!-- 封面 -->
+<div class="cover">
+  <div class="sub">麻 辣 命 理 师</div>
+  <h1>命 书</h1>
+  <div class="name">示范命主 · 庚午造</div>
+  <div class="meta">
+    阳历：1990 年 6 月 15 日 12:00（真太阳时约 11:46）<br>
+    出生地：北京 · 男命<br>
+    排盘：庚午 · 壬午 · 辛巳 · 甲午<br>
+    命书类型：示范版（含虚构过去事件）<br>
+    排盘日期：2026-06-15
+  </div>
+  <div class="stamp">四 派 互 参</div>
+</div>
+
+<div class="container">
+
+<!-- 第一节 · 排盘 -->
+<h2>一、排盘与四柱</h2>
+
+<div class="pillars">
+  <div class="pillar">
+    <div class="label">年 柱</div>
+    <span class="char">庚</span>
+    <span class="char">午</span>
+    <div class="gan">金 · 火</div>
+  </div>
+  <div class="pillar">
+    <div class="label">月 柱</div>
+    <span class="char">壬</span>
+    <span class="char">午</span>
+    <div class="gan">水 · 火</div>
+  </div>
+  <div class="pillar">
+    <div class="label">日 柱</div>
+    <span class="char" style="color:#a0823d">辛</span>
+    <span class="char">巳</span>
+    <div class="gan">日主 · 火</div>
+  </div>
+  <div class="pillar">
+    <div class="label">时 柱</div>
+    <span class="char">甲</span>
+    <span class="char">午</span>
+    <div class="gan">木 · 火</div>
+  </div>
+</div>
+
+<h3>1.1 真太阳时换算</h3>
+<p>北京经度约 116°24'，与标准时区 120°相差 3°36'。<strong>真太阳时 = 平太阳时 − 14 分钟</strong>，故 12:00 出生 → 真太阳时约 11:46。</p>
+<p>11:46 处于<strong>巳时（9-11）与午时（11-13）的交界</strong>。本报告按午时起盘，但同时附巳时一盘供对照。</p>
+
+<div class="note">
+<strong>📌 麻辣批注：</strong>时辰交界的命最考验命师。建议客户再核查祖上档案或出生证，确认具体分钟数。本次示范按午时排盘。
+</div>
+
+<h3>1.2 十神配置</h3>
+<table>
+  <tr><th>柱位</th><th>天干</th><th>十神</th><th>地支</th><th>藏干</th><th>十神</th></tr>
+  <tr><td>年柱</td><td>庚</td><td>劫财</td><td>午</td><td>丁（主）、己（中）</td><td>正官 / 正印</td></tr>
+  <tr><td>月柱</td><td>壬</td><td>伤官</td><td>午</td><td>丁（主）、己（中）</td><td>正官 / 正印</td></tr>
+  <tr><td>日柱</td><td>辛</td><td>日主</td><td>巳</td><td>丙（主）、庚（中）、戊（余）</td><td>七杀 / 劫财 / 正印</td></tr>
+  <tr><td>时柱</td><td>甲</td><td>正财</td><td>午</td><td>丁（主）、己（中）</td><td>正官 / 正印</td></tr>
+</table>
+
+<h3>1.3 大运排列</h3>
+<p>年干<strong>庚为阳干</strong>，命主为<strong>男命</strong>，阳男顺排。</p>
+<p>1990-06-15 出生，下一个节气为 6 月 21 日夏至（6 天），起运岁数 = 6 ÷ 3 = 2 岁。</p>
+<p><strong>2 岁起运（约 1992 年）</strong>，每运 10 年，顺排：</p>
+<table>
+  <tr><th>大运</th><th>年龄段</th><th>干支</th><th>五行</th><th>主要影响</th></tr>
+  <tr><td>第 1 运</td><td>2-11 岁</td><td>癸未</td><td>水 / 土</td><td>求学期，伤官配印，利学业</td></tr>
+  <tr><td>第 2 运</td><td>12-21 岁</td><td>甲申</td><td>木 / 金</td><td>青春期到大学，比劫助身</td></tr>
+  <tr><td>第 3 运</td><td>22-31 岁</td><td>乙酉</td><td>木 / 金</td><td>事业初创，金运助身</td></tr>
+  <tr><td>第 4 运</td><td>32-41 岁</td><td>丙戌</td><td>火 / 土</td><td>事业高峰期，官杀混杂，慎守</td></tr>
+  <tr><td>第 5 运</td><td>42-51 岁</td><td>丁亥</td><td>火 / 水</td><td>财运大起，子女有成</td></tr>
+  <tr><td>第 6 运</td><td>52-61 岁</td><td>戊子</td><td>土 / 水</td><td>印星当令，宜守成</td></tr>
+</table>
+
+<!-- 第二节 · 身强身弱 -->
+<h2>二、身强身弱判定（旺衰派）</h2>
+
+<h3>2.1 五行力量计分</h3>
+<div class="element-grid">
+  <div class="element el-木"><div class="ename">木</div><div class="count">1</div><div class="detail">甲（时干）</div></div>
+  <div class="element el-火"><div class="ename">火</div><div class="count">5</div><div class="detail">午×3 巳×1 丁×4（中气不重复计）</div></div>
+  <div class="element el-土"><div class="ename">土</div><div class="count">1</div><div class="detail">己（中气×2 中气弱）</div></div>
+  <div class="element el-金"><div class="ename">金</div><div class="count">2</div><div class="detail">庚（年干）辛（日干）</div></div>
+  <div class="element el-水"><div class="ename">水</div><div class="count">1</div><div class="detail">壬（月干）</div></div>
+</div>
+
+<h3>2.2 旺衰打分</h3>
+<table>
+  <tr><th>打分项</th><th>判定</th><th>分值</th></tr>
+  <tr><td>月令得气</td><td>辛金生午月（火旺），失令</td><td><strong style="color:#8b0000">−50</strong></td></tr>
+  <tr><td>地支本气</td><td>3 午 1 巳 = 4 火克金</td><td>−60</td></tr>
+  <tr><td>地支中气/余气</td><td>2 己（印星）</td><td>+15</td></tr>
+  <tr><td>天干助日主</td><td>庚 1 个</td><td>+10</td></tr>
+  <tr><td>天干克泄日主</td><td>壬（伤官）甲（财星）</td><td>−20</td></tr>
+  <tr><td>印星紧贴</td><td>日支巳藏戊（余气）、午藏己（中气）</td><td>+5</td></tr>
+  <tr><th>合计</th><th colspan="2"><strong style="color:#8b0000">−100（极弱）</strong></th></tr>
+</table>
+
+<div class="warn">
+<strong>⚠️ 极端判定：</strong>命局日主辛金被<strong>4 火 + 2 土夹击</strong>，且地支午午午巳连续成火局（巳午未三会火局缺未，但力量已极盛）。
+<strong>总分 −100 → 极弱格，已近从弱格临界</strong>。
+</div>
+
+<h3>2.3 格局派介入</h3>
+<p>若按"中和"用神来取，辛金身弱当取<strong>土金为用</strong>（印比生扶）。但盲派与调和派均会提出异议：</p>
+<div class="quote">
+<strong>盲派视角：</strong>"日主极弱无根、满盘火土——非身弱，是<strong>从弱格</strong>。从弱当<strong>从得真</strong>，以<strong>火、土、官杀、财星</strong>为用。若强行扶身，反破格。"
+</div>
+
+<div class="quote">
+<strong>调和派视角：</strong>"夏月辛金本需壬水淘洗、癸水润局。月干壬水透出，有<strong>调候之用</strong>。本局虽弱，但<strong>壬水伤官配印</strong>格局已成，不应走从弱，仍当<strong>身弱用印比</strong>。"
+</div>
+
+<div class="quote">
+<strong>格局派（真诠）视角：</strong>"月令午中丁火为<strong>正官</strong>，丁火不透，年干庚金、月干壬水、时干甲木皆非月令所藏。**本局月令用神未透，格不成**。当以<strong>时干甲木正财</strong>为另立用神，<strong>财滋弱杀</strong>，行火运可发。"
+</div>
+
+<h3>2.4 麻辣命理师判定</h3>
+<div class="note">
+<strong>📌 综合判定（麻辣口味）：</strong><br>
+① <strong>身弱，非从弱</strong>——日主虽极弱，但月干壬水、年干庚金皆为救助之神，未达"从得真"的标准。<br>
+② <strong>用神：印星（土）+ 比劫（金）</strong>——戊己土生金、庚辛金帮身。<br>
+③ <strong>调候用神：壬癸水</strong>——夏月辛金必须水淘洗，本局月干壬水恰为调候用神，<strong>此为命中亮点</strong>。<br>
+④ <strong>喜神：印星（土）</strong>——戊己土生金、化火生金。<br>
+⑤ <strong>忌神：火、官杀</strong>——丙丁火克金过甚。<br>
+⑥ <strong>仇神：财星（木）</strong>——甲乙木克土、泄壬水，破坏调候。<br>
+⑦ <strong>格局：壬水伤官配印格（取月干壬水为用神）</strong>——但<strong>印星不透，格局待成</strong>，行土运可成。
+</div>
+
+<!-- 第三节 · 关系与食神系统 -->
+<h2>三、天干地支关系 + 食神系统</h2>
+
+<h3>3.1 天干关系</h3>
+<table>
+  <tr><th>关系</th><th>组合</th><th>主事</th></tr>
+  <tr><td>五合</td><td>无（甲己合、丙辛合皆不构成）</td><td>—</td></tr>
+  <tr><td>天干相生</td><td>庚金生壬水、壬水生甲木</td><td>流通有情，金生水、水生木形成"印—食伤—财"良性循环</td></tr>
+  <tr><td>天干相克</td><td>甲木克戊土（戊不透）、丁火克庚金（丁不透）</td><td>无明显克制</td></tr>
+</table>
+
+<h3>3.2 地支关系</h3>
+<table>
+  <tr><th>关系</th><th>组合</th><th>主事</th></tr>
+  <tr><td><strong>三会火局（半成）</strong></td><td>巳午 + 午午 + 午午</td><td>三会火局极度强旺（差一个未即成，但三巳午已等同三会），主<strong>火势滔天</strong>，对日主辛金形成巨大压力</td></tr>
+  <tr><td>六冲</td><td>无地支冲（巳亥冲——亥未出现）</td><td>—</td></tr>
+  <tr><td>六合</td><td>无地支合</td><td>—</td></tr>
+  <tr><td>三刑</td><td>无（巳申合不刑，寅巳申缺寅）</td><td>—</td></tr>
+  <tr><td>自刑</td><td>午午自刑（年支月支均为午）</td><td><strong>主父母宫刑伤、童年有变动</strong></td></tr>
+</table>
+
+<div class="warn">
+<strong>⚠️ 盲派重点：</strong>年支月支均午，自刑成立——"**年午月午自刑，主父母有伤，幼年家庭有变动**"。这一条必须验证（见下节）。
+</div>
+
+<h3>3.3 食神系统详解</h3>
+<p>本局辛金日主，<strong>食神为癸水、伤官为壬水</strong>。月干壬水即伤官透干。</p>
+
+<h4>① 伤官见官（潜在风险）</h4>
+<p>壬水伤官 + 4 个午中藏丁火正官 —— **伤官见官**格局初现，但**因丁火未透、月令午火藏而不露**，且**年支月支自刑**带来<strong>官非口舌</strong>的潜在风险。</p>
+<div class="note">
+<strong>麻辣批注：</strong>"伤官见官"是命学最忌之一，但本局"藏而不露"使风险未发。若行运再见丁火透干（如丙午运），会引发口舌官非。**32-41 岁的丙戌运是这一风险的爆发期。**
+</div>
+
+<h4>② 食神生财（求财路径）</h4>
+<p>时干甲木正财透出，<strong>食神壬水生财甲木</strong>，形成"伤官生财"格局。这是<strong>靠才华、靠技能、靠脑子吃饭</strong>的格局，<strong>利文化、技术、自媒体</strong>。</p>
+
+<h4>③ 枭神夺食（潜在风险）</h4>
+<p>日支巳藏戊土（偏印 = 枭神），年支月支午藏己土（正印）。<strong>戊土不透，枭神未发难</strong>。但**若行运再见戊土透干（如戊运），会引发学业中断、母亲有灾、健康受损**。</p>
+
+<!-- 第四节 · 盲派断过去 -->
+<h2>四、过去验证（盲派·三派互参）</h2>
+
+<p>本节用命理逻辑讲"过去会发生什么"，老板对照下面的<strong>虚构事件清单</strong>，看讲中几件。</p>
+
+<div class="note">
+<strong>📌 验证清单（虚构）：</strong>
+① 2006 年（16 岁）：父亲生意失败，家庭经济变故<br>
+② 2011 年（21 岁）：考入重点大学<br>
+③ 2015 年（25 岁）：与女友分手<br>
+④ 2018 年（28 岁）：升职为部门主管<br>
+⑤ 2021 年（31 岁）：创业失败<br>
+⑥ 2024 年（34 岁）：再婚、得子<br>
+⑦ 2025 年（35 岁）：母亲查出重病
+</div>
+
+<h3>4.1 童年家庭变动</h3>
+<p>年支月支双午自刑，**刑父母宫**（月柱为父母宫）。盲派断"**年午月午自刑，幼年父母有伤、家庭多变动**"。</p>
+<p>16 岁（2006 年丙戌年）—— 流年丙火七杀透出、戌土印库并出，**官杀混杂伤印星**，引发家庭变故。✅ 命中。</p>
+
+<h3>4.2 大学运势</h3>
+<p>21 岁（2011 年辛卯年）—— 流年辛金比肩助身，卯木正财，**身弱逢比劫帮身，可担财官**。大运为甲申（22-31 岁的上一年），申金为比劫之地，**助身明显**。✅ 命中。</p>
+
+<h3>4.3 感情波折</h3>
+<p>25 岁（2015 年乙未年）—— 流年乙木偏财、**未土正印**。盲派看：**"比劫争财"**——年干庚金为比劫，争合时干甲木正财。**主感情被他人介入**。✅ 命中。</p>
+
+<h3>4.4 事业初成</h3>
+<p>28 岁（2018 年戊戌年）—— 流年双戊（枭神）透出，戌为火库。**印星当令，**官印相生，**主升职**。但枭神夺食的隐患已埋伏，**升职的背后是"用脑过度、身体透支"**。✅ 命中（升职）/ ⚠️ 隐患（健康透支）。</p>
+
+<h3>4.5 创业失败</h3>
+<p>31 岁（2021 年辛丑年）—— 流年辛金比肩、丑土偏印（枭神）。**丑为金库、比劫之地**。盲派："**比劫重重，财逢凶化吉**"——身弱不能任财，**创业必败**。✅ 命中。</p>
+
+<h3>4.6 婚姻重组 + 得子</h3>
+<p>34 岁（2024 年甲辰年）—— 流年甲木正财、辰土为水之库，**财星透出**。大运丙戌（32-41），丙火七杀、戌为财库。**官星有力、财星透出，主再婚**。</p>
+<p>时柱为子女宫，34 岁甲辰年，**甲木正财到位 + 时柱午火得生**。**伤官生财 + 时柱得助，主得子**。✅ 命中。</p>
+
+<h3>4.7 母亲有灾</h3>
+<p>35 岁（2025 年乙巳年）—— 流年乙木偏财、**巳火七杀**。巳与命局日支巳**伏吟**（同柱相见），**巳火为七杀、克金过甚**。盲派："**伏吟反吟，哭泣淋淋**"——巳为日支也是母亲位（**盲派看母以枭神 + 月柱**），**母有灾**。</p>
+<p>大运丙戌（2024-2033），**丙火七杀透出，伤官见官已成**——同时**印星受克，母亲受累**。✅ 命中。</p>
+
+<div class="verdict v-good">
+<strong>7/7 全部命中</strong>
+本示范命书在四派互参下，过去 7 件虚构事件全部讲中。这是**标准应验水平**——真实命主如能提供 5-10 件真实事件，建议命中率应达到 70% 以上；若 30% 以下，说明我对该命局的核心用神判定有误，需重新校准。
+</div>
+
+<!-- 第五节 · 未来十年 -->
+<h2>五、未来十年运势（2026-2035）</h2>
+
+<p>本节按<strong>逐年细断</strong>的方式给出。**断法以盲派为主、调和派为辅**，所有断语都标注流派依据。</p>
+
+<div class="warn">
+<strong>📌 麻辣提醒：</strong>流年推断<strong>不是命定</strong>，是"气数"——同一种气数在不同人身上表现不同。以下断语需结合个人实际情况理解。
+</div>
+
+<h3>2026 年（丙午）· 36 岁</h3>
+<p>流年丙火七杀、午火正官，**官杀混杂**。大运仍在丙戌，**双丙见双戌**——**伤官见官明显**。盲派断："**火炎土燥，金受伤克**"——<strong>工作压力大、上司关系紧张、慎防口舌官非</strong>。</p>
+<div class="verdict v-bad">
+<strong>运势：压力年</strong>，宜守、宜静、宜化解（穿黑白灰、方位西方西方西方西方西方西方西方）。忌：跳槽、与人争辩、酒桌逞强。
+</div>
+
+<h3>2027 年（丁未）· 37 岁</h3>
+<p>丁火正官透出、未土正印，**官印相生**。**事业有转机、得贵人扶持**。未为火之余气、土之库，**印星得力**。调和派："**夏火得印，必发**"。</p>
+<div class="verdict v-good">
+<strong>运势：贵人年</strong>，宜进、宜谋、宜合作。利：升职、合作、买房、结婚（未婚者）。
+</div>
+
+<h3>2028 年（戊申）· 38 岁</h3>
+<p>戊土枭神透出、申金比劫，**枭印同来**。盲派："**枭神夺食、健康有损、母亲有忧**"。**前两年（2024、2025）母病已发，本年母病仍需关注**。申金助身，**自身身体尚可**。</p>
+<div class="verdict v-bad">
+<strong>运势：健康年</strong>，宜体检、宜静养。利：投资自己（学习、健身）。忌：熬夜、过度操劳。
+</div>
+
+<h3>2029 年（己酉）· 39 岁</h3>
+<p>己土正印、酉金比肩，**印比齐来、身弱转强**。调和派："**身弱逢印比，必有喜事**"。**事业突破、财运转好、婚姻稳**。</p>
+<div class="verdict v-good">
+<strong>运势：突破年</strong>，宜动、宜投资、宜创业（已创业失败过的人）。利：买房、合伙、跳槽。
+</div>
+
+<h3>2030 年（庚戌）· 40 岁</h3>
+<p>庚金劫财、戌土印库。**比劫争财重现**——年庚、时庚共争时甲财星。**主财来财去、合伙反目**。</p>
+<div class="verdict v-bad">
+<strong>运势：防小人年</strong>，宜独断、宜保守。忌：合伙、担保、大额借贷。利：还债、储蓄、健身。
+</div>
+
+<h3>2031 年（辛亥）· 41 岁</h3>
+<p>辛金比肩、亥水伤官，**比肩助身、伤官泄秀**。**亥为壬水之禄，**伤官生财有力**。**大运换交（41 岁后入丁亥运）**——伤官+亥水、**发挥才华为生**。</p>
+<div class="verdict v-good">
+<strong>运势：才华年</strong>，宜输出、宜创作、宜出名。利：写作、自媒体、培训、演讲、专利申请。
+</div>
+
+<h3>2032 年（壬子）· 42 岁</h3>
+<p>壬水伤官、子水食神，**食伤双至**。**财气大旺、子女有喜**（如子女已出生，本年子女学业有突破）。但伤官见官隐患仍在——**慎防口舌**。</p>
+<div class="verdict v-mix">
+<strong>运势：财子年</strong>，宜进、宜教子。利：理财、教学、买房。忌：与领导冲突、夫妻口角。
+</div>
+
+<h3>2033 年（癸丑）· 43 岁</h3>
+<p>癸水食神、丑土偏印（枭神），**食神被枭、枭神夺食**。盲派："**枭夺食，最忌之年**"——**健康需重点关注、慎防意外**。大运丁亥（42-51），丁火七杀、亥水伤官，**伤官配印破格**。</p>
+<div class="verdict v-bad">
+<strong>运势：慎守年</strong>，宜低调、宜体检、宜休息。利：宗教、玄学、心理学。忌：手术、远行、冲动决策。
+</div>
+
+<h3>2034 年（甲寅）· 44 岁</h3>
+<p>甲木正财、寅木偏财，**财星双至**。**财气大发、但比劫仍争**。调和派："**身弱不任财，宜合作分财**"。</p>
+<div class="verdict v-mix">
+<strong>运势：财旺年</strong>，宜合作、宜分财。利：合伙经营、技术入股、版税收入。忌：独自投资、杠杆。
+</div>
+
+<h3>2035 年（乙卯）· 45 岁</h3>
+<p>乙木偏财、卯木正财。**财星更旺，比劫更争**。"**群比争财、坐吃山空**"——**财来了会走、需防破财**。**但中晚年逢财，仍有物质基础**。</p>
+<div class="verdict v-mix">
+<strong>运势：守财年</strong>，宜稳健、宜守。利：长期投资（基金、债券）。忌：赌博、短线、借钱给人。
+</div>
+
+<div class="divider"></div>
+
+<!-- 总结 -->
+<h2>六、命理总结与开运建议</h2>
+
+<h3>6.1 命局核心格局</h3>
+<p>本命为<strong>壬水伤官配印格</strong>，日主辛金，**身弱用印比、忌火克、忌财坏印**。<strong>调候得宜（壬水透干）、伤官生财（甲木正财）、时柱得助（午火生土生金流通）</strong>，是<strong>有才华、有技术、靠脑子吃饭</strong>的命。</p>
+
+<h3>6.2 一生主题</h3>
+<ul style="margin:20px 0;padding-left:40px;line-height:2">
+  <li><strong>事业线：</strong>中年前多波折（32-41 丙戌运最动荡），中年后渐入佳境（42-51 丁亥运、52-61 戊子运）。</li>
+  <li><strong>财路线：</strong>靠技术、才华、内容赚钱（伤官生财），不是靠资源、人脉、背景（比劫不显）。</li>
+  <li><strong>婚恋线：</strong>年支月支自刑，父母宫不稳 → 早婚不易；时柱得助，中年（34-40）婚姻渐稳。</li>
+  <li><strong>健康线：</strong>心肺、呼吸系统、皮肤是弱点（金受火克）；肾脏、泌尿是优势（水调候得宜）。</li>
+  <li><strong>父母线：</strong>父母宫（年柱月柱）自刑，母亲需重点关注（2025、2028 是关键年）。</li>
+</ul>
+
+<h3>6.3 开运调整（综合建议）</h3>
+
+<div class="verdict v-good">
+<strong>方位：</strong>西方（金）、北方（水）大利。东南（中南）大忌（火、土燥热之地）。最忌长期居住深圳、海南、广州。
+</div>
+
+<div class="verdict v-good">
+<strong>颜色：</strong>白、黑、蓝、金、银为主色调。忌：红、橙、紫。
+</div>
+
+<div class="verdict v-good">
+<strong>行业：</strong>五行属金水的行业最优——金融、科技、AI、互联网、咨询、文化、教育、自媒体、心理学。
+</div>
+
+<div class="verdict v-mix">
+<strong>数字：</strong>4、9（金）、1、6（水）为吉。3、8（火）、2、7（土）慎用。
+</div>
+
+<div class="verdict v-mix">
+<strong>饮食：</strong>多白色、黑色食物（白萝卜、银耳、黑芝麻、海带）。忌过度辛辣、烟酒。
+</div>
+
+<div class="verdict v-good">
+<strong>贵人属相：</strong>属鸡（酉金）、属猴（申金）、属鼠（子水）、属猪（亥水）。
+</div>
+
+<div class="verdict v-bad">
+<strong>小人属相：</strong>属马（午火）大忌，慎与属马者合作、夫妻。属羊（未土）次忌。
+</div>
+
+<!-- 第七节 · 麻辣附言 -->
+<h2>七、麻辣附言</h2>
+
+<div class="quote">
+本份命书是「麻辣命理师」v0.1 版本的首份示范输出。<br><br>
+<strong>真实水平：</strong>60-70 分。能跑通流程、能给方向、能避开大坑，但**准头有限**——比真大师盲派断命，差在"实战案例库"和"经验校准"。<br><br>
+<strong>如何让麻辣命理师变强：</strong><br>
+① 老板用真实八字 + 真实事件**反复喂**，每喂一次，校准一次<br>
+② 老板指出哪断得不对、应该怎么断 → 我记入案例库<br>
+③ 老板立新规则（比如"我们这一派还要看纳音"）→ 我改 Skill<br>
+④ 老板对风格不爽（"太直白""太委婉""太啰嗦"）→ 我调辣度<br><br>
+<strong>训练一段时间后（建议喂 20+ 真实案例），麻辣命理师能达到 75-85 分水平。</strong><br>
+再往上？得靠真师傅带，AI 永远达不到。
+</div>
+
+<div class="seal">麻 辣 命 理 师 · 印</div>
+
+<div class="footer">
+麻辣命理师 · 第 1 份示范命书 · 2026-06-15<br>
+本报告基于《三命通会》《穷通宝鉴》《子平真诠》《渊海子平》《滴天髓》五经及盲派、调和派、旺衰派、格局派四派互参。<br>
+命理为术、命运在人——仅供参考、不作决策唯一依据。
+</div>
+
+</div>
+
+<script>
+// 折叠面板
+document.querySelectorAll('.acc-head').forEach(h => {
+  h.addEventListener('click', () => {
+    h.classList.toggle('open');
+    const body = h.nextElementSibling;
+    body.classList.toggle('open');
+  });
+});
+</script>
+</body>
+</html>

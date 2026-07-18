@@ -1,0 +1,27 @@
+{
+  "agent_name": "漏斗构建专家",
+  "version": "12.0",
+  "input": {
+    "required": [
+      "opportunities"
+    ],
+    "optional": [
+      "company_insights"
+    ]
+  },
+  "output": {
+    "writes": [
+      "funnel_design"
+    ],
+    "format": "JSON"
+  },
+  "constraints": [
+    "必须在客户洞察专家执行完成后才能执行",
+    "不修改 company_insights 和 opportunities",
+    "不写入 win_strategy"
+  ],
+  "dependencies": [
+    "客户洞察专家"
+  ],
+  "parallel_safe": true
+}

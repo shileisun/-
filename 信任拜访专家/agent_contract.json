@@ -1,0 +1,28 @@
+{
+  "agent_name": "信任拜访专家",
+  "version": "12.0",
+  "input": {
+    "required": [
+      "company_insights"
+    ],
+    "optional": [
+      "visit_context",
+      "win_strategy"
+    ]
+  },
+  "output": {
+    "writes": [
+      "visit_plan"
+    ],
+    "format": "JSON"
+  },
+  "constraints": [
+    "必须在客户洞察专家执行完成后才能执行",
+    "不修改 company_insights 和 opportunities",
+    "不写入 win_strategy 或 solution_design"
+  ],
+  "dependencies": [
+    "客户洞察专家"
+  ],
+  "parallel_safe": true
+}
