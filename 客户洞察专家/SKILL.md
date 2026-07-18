@@ -22,7 +22,7 @@ alliance:
     - 信任拜访专家
     - 客户经营专家
 compiled_methodology:
-  file: /Users/sunsun/.workbuddy/methodology/methodology_knowledge_base.json
+  file: ${SKILLS_DIR}/methodology/methodology_knowledge_base.json
   version: 2.0.0
   nodes:
     - models.crm_opportunity_scorer: 五维CRM商机评分（5条规则+权重）

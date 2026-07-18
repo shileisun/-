@@ -85,15 +85,15 @@ disable: false
 使用模板脚本生成：
 
 ```bash
-cd /Users/sunsun/WorkBuddy/Claw && python3 zj_channel_weekly_report_template.py
+cd ${WORKBUDDY_WORKSPACE}/Claw && python3 zj_channel_weekly_report_template.py
 ```
 
-模板脚本位置：`/Users/sunsun/WorkBuddy/Claw/zj_channel_weekly_report_template.py`
+模板脚本位置：`${WORKBUDDY_WORKSPACE}/Claw/zj_channel_weekly_report_template.py`
 
 ### 步骤4：交付
 
 输出文件路径示例：
-`/Users/sunsun/WorkBuddy/Claw/Zhejiang_Channel_Weekly_Report_2026_W21.docx`
+`${WORKBUDDY_WORKSPACE}/Claw/Zhejiang_Channel_Weekly_Report_2026_W21.docx`
 
 ## 数据来源
 

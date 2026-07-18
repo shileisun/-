@@ -111,7 +111,7 @@ Step 5: 模板匹配 + 格式化输出
 ```bash
 # Step 1: 搜索IMA知识库
 unset NODE_OPTIONS
-SKILL_DIR="/Users/sunsun/.workbuddy/skills/腾讯ima"
+SKILL_DIR="${SKILLS_DIR}/腾讯ima"
 OPTS='{"clientId":"'"$(cat ~/.config/ima/client_id)"'","apiKey":"'"$(cat ~/.config/ima/api_key)"'"}'
 
 node "$SKILL_DIR/ima_api.cjs" \
@@ -140,7 +140,7 @@ with open('/tmp/sales_assistant_result.txt','w') as f:
 ```bash
 # 获取下载URL
 unset NODE_OPTIONS
-SKILL_DIR="/Users/sunsun/.workbuddy/skills/腾讯ima"
+SKILL_DIR="${SKILLS_DIR}/腾讯ima"
 OPTS='{"clientId":"'"$(cat ~/.config/ima/client_id)"'","apiKey":"'"$(cat ~/.config/ima/api_key)"'"}'
 
 node "$SKILL_DIR/ima_api.cjs" \
@@ -386,7 +386,7 @@ DeferExecuteTool: mcp__qcc-company__get_key_personnel
 
 ### 格式要求
 
-1. **所有内容输出为HTML文件**，保存到工作目录 `/Users/sunsun/WorkBuddy/Claw/`
+1. **所有内容输出为HTML文件**，保存到工作目录 `${WORKBUDDY_WORKSPACE}/Claw/`
 2. 文件命名规范: `[客户/行业名称]_[场景类型].html`
 3. HTML必须美观专业，可直接在浏览器中打开查看
 4. 如用户需要PDF版本，提醒使用浏览器"打印为PDF"

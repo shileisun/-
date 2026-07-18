@@ -28,7 +28,7 @@ methodology_references:
   - 价值营销四步法（发现→定义→设计→共识）
   - ROI分析框架
 compiled_methodology:
-  file: /Users/sunsun/.workbuddy/methodology/methodology_knowledge_base.json
+  file: ${SKILLS_DIR}/methodology/methodology_knowledge_base.json
   version: 2.0.0
   nodes:
     - models.quality_scoring: 输出质量评分（五维度+阈值）

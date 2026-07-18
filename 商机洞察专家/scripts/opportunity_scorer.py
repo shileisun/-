@@ -16,7 +16,13 @@ from datetime import datetime
 from typing import Dict, List, Optional, Tuple
 
 
-FABM_DB = "/Users/sunsun/WorkBuddy/2026-06-06-12-26-28/alliance-system/data/alliance.db"
+FABM_DB = os.environ.get(
+    "FABM_DB",
+    os.path.join(
+        os.environ.get("WORKBUDDY_WORKSPACE", os.path.expanduser("~/WorkBuddy")),
+        "2026-06-06-12-26-28/alliance-system/data/alliance.db",
+    ),
+)
 
 
 def get_db():

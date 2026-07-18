@@ -2,11 +2,25 @@
 """客户档案专家 - 数据查询脚本"""
 import pandas as pd
 import sys
+import os
 import json
 
-DATA_FILE = '/Users/sunsun/Desktop/量子蜂群客户档案.csv'
+# v17 P1: 环境变量 + 默认值 + 缺失降级
+DATA_FILE = os.environ.get(
+    'FABM_CUSTOMER_CSV',
+    os.path.join(os.environ.get('WORKBUDDY_WORKSPACE', os.path.expanduser('~/WorkBuddy')), '量子蜂群客户档案.csv'),
+)
 
 def load_data():
+    if not os.path.exists(DATA_FILE):
+        # 降级：���试同目录下的 .csv
+        fallback = os.path.join(os.path.dirname(os.path.abspath(__file__)), '量子蜂群客户档案.csv')
+        if os.path.exists(fallback):
+            return pd.read_csv(fallback)
+        raise FileNotFoundError(
+            f"客户档案数据文件缺失：{DATA_FILE}\n"
+            f"请设置环境变量 FABM_CUSTOMER_CSV 指向客户档案 CSV，或将文件放入 skill 目录。"
+        )
     return pd.read_csv(DATA_FILE)
 
 def query(args):

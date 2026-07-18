@@ -182,7 +182,7 @@ alliance:
 
 ## 方法论编译引擎（v16.2核心·必读）
 
-> **核心原则**：确定性业务规则已从Prompt中抽离，编译为 `/Users/sunsun/.workbuddy/methodology/methodology_knowledge_base.json`（v3.0，30次迭代，750+行，15个编译模型，25个评测用例全部通过）。
+> **核心原则**：确定性业务规则已从Prompt中抽离，编译为 `${SKILLS_DIR}/methodology/methodology_knowledge_base.json`（v3.0，30次迭代，750+行，15个编译模型，25个评测用例全部通过）。
 > **执行规则**：每次执行以下类型任务前，必须先读取该JSON文件对应节点，**禁止在Prompt中重新"理解"规则**。
 > **新增工具**：`pipeline_engine.py` 直接执行确定性规则（6个命令），`evaluation_runner.py` 自动运行评测集。
 
@@ -228,13 +228,38 @@ alliance:
 ### 文件位置
 
 ```
-/Users/sunsun/.workbuddy/methodology/methodology_knowledge_base.json
+${SKILLS_DIR}/methodology/methodology_knowledge_base.json
 ```
 
 > ⚠️ **维护规则**：每次修改方法论知识，必须同步更新两个地方：
 > 1. `methodology_knowledge_base.json`（编译版·确定性规则）
 > 2. 对应SKILL.md的 `methodology_references`（描述版·非确定性说明）
 > 两者不一致 → 以JSON为准
+
+### 外部依赖与降级策略（v17.0 P1 新增·地基）
+
+> **原则**：所有外部依赖一律**相对路径 + 缺失降级**，禁止硬编码本机绝对路径。环境变量未设置时使用默认值，依赖文件缺失时降级运行而非报错。
+
+| 环境变量 | 默认值 | 用途 | 缺失时降级 |
+|:---------|:-------|:-----|:-----------|
+| `SKILLS_DIR` | `~/.workbuddy/skills`（本机）/ `/root/.codebuddy/skills`（沙箱） | skill 根目录 | 用 `os.path.dirname(__file__)` 自动定位 |
+| `WORKBUDDY_WORKSPACE` | `~/WorkBuddy` | 工作输出目录 | 降级为系统临时目录 |
+| `METHODOLOGY_KB` | `${SKILLS_DIR}/methodology/methodology_knowledge_base.json` | 方法论编译知识库 | **降级为 Prompt 内联规则**（读 `methodology_references` 描述版，量化精度下降但不阻塞） |
+| `FABM_DB` | `${WORKBUDDY_WORKSPACE}/alliance-system/data/alliance.db` | FABM 客户数据库 | 降级为「用户手动输入客户数据」模式 |
+| `CRM_MCP_ENDPOINT` | — | 纷享销客 CRM MCP Server | 降级为「离线分析」模式，CRM 查询类任务提示用户手动提供 |
+| `QICHACHA_MCP_ENDPOINT` | — | 企查查 MCP Server | 降级为「WebSearch 检索工商信息」模式 |
+| `IMA_KB_ENDPOINT` | — | 腾讯 IMA 知识库 | 降级为「本地方法论 SKILL.md」模式 |
+
+**降级执行规程**（硬性）：
+```
+1. 启动时探测环境变量 → 记录哪些外部依赖可用/缺失
+2. 任务执行前 → 检查所需依赖是否可用
+   - 可用 → 走完整路径（高精度）
+   - 缺失 → 走降级路径（精度下降但可交付）+ 在输出末尾标注「⚠️ 本次降级运行，XX 数据为离线推断」
+3. 禁止：因外部依赖缺失而直接报错终止（销售场景必须给结果）
+```
+
+> **v17 目标**：把"硬编码本机路径"从 12 个文件清零（已完成相对化），下一步把 FABM/IMA/企查查封装为 MCP Server（见 v17 §2.4）。
 
 ---
 

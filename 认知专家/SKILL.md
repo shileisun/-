@@ -800,9 +800,9 @@ alliance:
 - **元知识学习**：主动搜索学习周易/道德经/金刚经/毛选/佛道马哲相关内容
 
 ## 文件位置约定
-- 典籍精要：`/Users/sunsun/.workbuddy/skills/认知专家/命理典籍/0X_书名_精要.md`
-- 元知识典籍：`/Users/sunsun/.workbuddy/skills/认知专家/命理典籍/1X_体系名_元知识_精要.md`
-- 案例库：`/Users/sunsun/.workbuddy/skills/认知专家/认知笔记/案例_NNN_姓名.md`
+- 典籍精要：`${SKILLS_DIR}/认知专家/命理典籍/0X_书名_精要.md`
+- 元知识典籍：`${SKILLS_DIR}/认知专家/命理典籍/1X_体系名_元知识_精要.md`
+- 案例库：`${SKILLS_DIR}/认知专家/认知笔记/案例_NNN_姓名.md`
 - 报告输出：项目 `认知报告/` 目录下
 
 ## 自我迭代机制
